@@ -14,6 +14,12 @@ app.use(cors());
 
 app.use('/logs', logs);
 
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Travelr API'
+  })
+});
+
 app.get('/authorized', async function (req, res) {
   // const token = req.header('Authorization');
   console.log(req.user);
