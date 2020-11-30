@@ -16,6 +16,7 @@ const Home = () => {
       const json = await response.json();
       console.log(response);
       console.log(json);
+
     } catch (err) {
       console.log(err);
     }
