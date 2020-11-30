@@ -50,6 +50,6 @@ app.get('/authorized', async function (req, res) {
   });
 });
 
-app.listen(port, () => {
+app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
