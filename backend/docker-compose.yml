@@ -1,0 +1,7 @@
+version: 3
+services:
+  travelr:
+    build:
+      context: .
+    ports:
+      - "4545:4545"
