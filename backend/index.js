@@ -6,7 +6,7 @@ const axios = require('axios');
 const jwtCheck = require('./middleware/jwtCheck');
 const logs = require('./routes/logs');
 
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
 
 app.use(cors());
@@ -51,5 +51,5 @@ app.get('/authorized', async function (req, res) {
 });
 
 app.listen(port, () => {
-  console.log('Listening on port 4000...');
+  console.log(`Listening on port ${PORT}`);
 });
