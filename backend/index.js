@@ -21,7 +21,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/test', (req, res) => {
-  console.log(req);
+  // console.log(req);
+  console.log("Received request");
   res.status(200).json({
     msg: 'Test route'
   })
