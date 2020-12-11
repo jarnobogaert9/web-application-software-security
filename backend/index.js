@@ -20,6 +20,13 @@ app.get('/', (req, res) => {
   })
 });
 
+app.get('/test', (req, res) => {
+  console.log(req);
+  res.status(200).json({
+    msg: 'Test route'
+  })
+});
+
 app.get('/authorized', async function (req, res) {
   // const token = req.header('Authorization');
   console.log(req.user);
