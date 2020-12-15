@@ -8,6 +8,8 @@ const logs = require('./routes/logs');
 
 const PORT = process.env.PORT || 4000;
 
+// TODO: laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
+// TODO vermijdt MIME sniffin: x-content-type-options: nosniff
 
 app.use(cors());
 // app.use(jwtCheck);
@@ -28,10 +30,23 @@ app.get('/test', (req, res) => {
   })
 });
 
-app.get('/authorized', async function (req, res) {
-  // const token = req.header('Authorization');
+app.get('/authorized', jwtCheck, async function (req, res) {
+  const token = req.header('Authorization');
   console.log(req.user);
 
+  // TODO get user role
+  const userinfoUrl = 'https://dev-dnjlv1qu.eu.auth0.com/userinfo'
+  const url = 'https://dev-dnjlv1qu.eu.auth0.com/api/v2/users'
+
+  axios.get(`${userinfoUrl}`, {
+    headers: {
+      'Authorization': `${token}`
+    }
+  }).then(resp => {
+    console.log(resp.data);
+  }).catch(err => {
+    console.log(err);
+  })
 
   // var options = {
   //   method: 'GET',
