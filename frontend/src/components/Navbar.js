@@ -30,13 +30,9 @@ const Navbar = () => {
       <AppBar position="static">
         <Container>
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>News</Typography>
-            <Link to="/">
-              <Button>Home</Button>
-            </Link>
-            <Link to="/profile">
-              <Button>Profile</Button>
-            </Link>
+            <Typography variant="h6" className={classes.title}>Travelr.</Typography>
+            {/* <Link to="/">Home</Link> */}
+            {/* <Link to="/profile">Profile</Link> */}
             <AuthNav />
           </Toolbar>
         </Container>
