@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const axios = require('axios');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const jwtCheck = require('./middleware/jwtCheck');
 const travelLogs = require('./routes/travelLogs');
 
@@ -20,6 +21,7 @@ mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooe
 
 app.use(cors());
 app.use(express.json());
+app.use(morgan('tiny'))
 // app.use(jwtCheck);
 
 app.use('/travelLogs', travelLogs);
