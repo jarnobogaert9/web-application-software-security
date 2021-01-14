@@ -30,7 +30,7 @@ const corsAllowlist = ['https://www.travelr.jarnobogaert.com/', 'https://travelr
 const corsOptionsDelegate = (req, callback) => {
   let corsOptions;
 
-  let isDomainAllowed = whitelist.indexOf(req.header('Origin')) !== -1;
+  let isDomainAllowed = corsAllowlist.indexOf(req.header('Origin')) !== -1;
 
   if (isDomainAllowed) {
     // Enable CORS for this request
