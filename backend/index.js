@@ -4,20 +4,49 @@ const app = express();
 const cors = require('cors');
 const axios = require('axios');
 const jwtCheck = require('./middleware/jwtCheck');
-const logs = require('./routes/logs');
+const travelLogs = require('./routes/travelLogs');
 
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
+// TODO: laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
+// TODO vermijdt MIME sniffin: x-content-type-options: nosniff
 
 app.use(cors());
 // app.use(jwtCheck);
 
-app.use('/logs', logs);
+app.use('/travelLogs', travelLogs);
 
-app.get('/authorized', async function (req, res) {
-  // const token = req.header('Authorization');
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Travelr API'
+  })
+});
+
+app.get('/test', (req, res) => {
+  // console.log(req);
+  console.log("Received request");
+  res.status(200).json({
+    msg: 'Test route'
+  })
+});
+
+app.get('/authorized', jwtCheck, async function (req, res) {
+  const token = req.header('Authorization');
   console.log(req.user);
 
+  // TODO get user role
+  const userinfoUrl = 'https://dev-dnjlv1qu.eu.auth0.com/userinfo'
+  const url = 'https://dev-dnjlv1qu.eu.auth0.com/api/v2/users'
+
+  axios.get(`${userinfoUrl}`, {
+    headers: {
+      'Authorization': `${token}`
+    }
+  }).then(resp => {
+    console.log(resp.data);
+  }).catch(err => {
+    console.log(err);
+  })
 
   // var options = {
   //   method: 'GET',
@@ -50,6 +79,6 @@ app.get('/authorized', async function (req, res) {
   });
 });
 
-app.listen(port, () => {
-  console.log('Listening on port 4000...');
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });

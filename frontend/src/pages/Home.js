@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from '@material-ui/core'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const Home = () => {
@@ -24,7 +23,7 @@ const Home = () => {
   return (
     <div>
       <h1>Homepage</h1>
-      <Button color="primary" variant="contained" onClick={fetchHandler}>Click Me!</Button>
+      {/* <Button color="primary" variant="contained" onClick={fetchHandler}>Click Me!</Button> */}
     </div>
   )
 }
