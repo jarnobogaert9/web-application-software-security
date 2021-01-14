@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors');
 const axios = require('axios');
 const jwtCheck = require('./middleware/jwtCheck');
-const logs = require('./routes/logs');
+const travelLogs = require('./routes/travelLogs');
 
 const PORT = process.env.PORT || 4000;
 
@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 // app.use(jwtCheck);
 
-app.use('/logs', logs);
+app.use('/travelLogs', travelLogs);
 
 app.get('/', (req, res) => {
   res.json({
