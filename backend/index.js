@@ -19,6 +19,7 @@ mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooe
 // TODO vermijdt MIME sniffin: x-content-type-options: nosniff
 
 app.use(cors());
+app.use(express.json());
 // app.use(jwtCheck);
 
 app.use('/travelLogs', travelLogs);
