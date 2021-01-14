@@ -3,10 +3,17 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const axios = require('axios');
+const mongoose = require('mongoose');
 const jwtCheck = require('./middleware/jwtCheck');
 const travelLogs = require('./routes/travelLogs');
 
 const PORT = process.env.PORT || 4000;
+
+mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooeji.mongodb.net?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+  console.log('Connected to mongodb database');
+}).catch(err => {
+  console.log(err);
+});
 
 // TODO: laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
 // TODO vermijdt MIME sniffin: x-content-type-options: nosniff
