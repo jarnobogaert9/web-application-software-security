@@ -22,6 +22,9 @@ const Navbar = () => {
           <Menu.Item onClick={() => history.push('/travel-logs')}>
             Travel Logs
           </Menu.Item>
+          <Menu.Item onClick={() => history.push('/create-travel-logs')}>
+            Create Travel Log
+          </Menu.Item>
 
           <Menu.Menu position='right'>
             <Menu.Item onClick={() => history.push('/profile')}>

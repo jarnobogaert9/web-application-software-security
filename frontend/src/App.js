@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import TravelLogs from './pages/TravelLogs';
 
 import { Container } from 'semantic-ui-react'
+import CreateTravelLogs from './pages/CreateTravelLog';
 
 function App() {
   const { isLoading } = useAuth0();
@@ -25,6 +26,7 @@ function App() {
       <Container>
         <Route path="/" component={Home} exact />
         <PrivateRoute path="/travel-logs" component={TravelLogs} />
+        <PrivateRoute path="/create-travel-logs" component={CreateTravelLogs} />
         <PrivateRoute path="/profile" component={Profile} />
       </Container>
     </>
