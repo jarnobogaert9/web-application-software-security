@@ -19,6 +19,31 @@ mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooe
 // TODO: laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
 // TODO vermijdt MIME sniffin: x-content-type-options: nosniff
 
+
+var corsOptions = {
+  origin: 'http://localhost:8080',
+  optionsSuccessStatus: 200 // For legacy browser support
+}
+
+const corsAllowlist = ['https://www.travelr.jarnobogaert.com/', 'https://travelr.jarnobogaert.com/', 'http://localhost:3000'];
+
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions;
+
+  let isDomainAllowed = whitelist.indexOf(req.header('Origin')) !== -1;
+
+  if (isDomainAllowed) {
+    // Enable CORS for this request
+    corsOptions = { origin: true }
+  } else {
+    // Disable CORS for this request
+    corsOptions = { origin: false }
+  }
+  callback(null, corsOptions)
+}
+
+app.use(cors(corsOptionsDelegate));
+
 app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'))
