@@ -15,34 +15,18 @@ const Navbar = () => {
   return (
     <div>
       <Container>
-
         <Menu>
-
-          <Menu.Item
-            name='browse'
-          >
-            Browse
-        </Menu.Item>
-
-          <Menu.Item
-            name='submit'
-
-          >
-            Submit
-        </Menu.Item>
+          <Menu.Item onClick={() => history.push('/')}>
+            Home
+          </Menu.Item>
+          <Menu.Item onClick={() => history.push('/travel-logs')}>
+            Travel Logs
+          </Menu.Item>
 
           <Menu.Menu position='right'>
-            <Menu.Item
-              onClick={() => history.push('/profile')}
-            >
+            <Menu.Item onClick={() => history.push('/profile')}>
               Profile
             </Menu.Item>
-
-            {/* <Menu.Item
-            name='help'
-            >
-            Help
-          </Menu.Item> */}
             <Menu.Item>
               <AuthNav />
             </Menu.Item>
