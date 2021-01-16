@@ -10,21 +10,17 @@ const travelLogs = require('./routes/travelLogs');
 
 const PORT = process.env.PORT || 4000;
 
-mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooeji.mongodb.net?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooeji.mongodb.net?retryWrites=true&w=majority`).then(() => {
   console.log('Connected to mongodb database');
 }).catch(err => {
   console.log(err);
 });
 
-// TODO: laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
 // TODO vermijdt MIME sniffin: x-content-type-options: nosniff
 
 
-var corsOptions = {
-  origin: 'http://localhost:8080',
-  optionsSuccessStatus: 200 // For legacy browser support
-}
 
+// laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
 const corsAllowlist = ['https://www.travelr.jarnobogaert.com/', 'https://travelr.jarnobogaert.com/', 'http://localhost:3000'];
 
 const corsOptionsDelegate = (req, callback) => {
@@ -44,7 +40,6 @@ const corsOptionsDelegate = (req, callback) => {
 
 app.use(cors(corsOptionsDelegate));
 
-app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'))
 // app.use(jwtCheck);
