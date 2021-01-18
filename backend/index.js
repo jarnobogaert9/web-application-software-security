@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const jwtCheck = require('./middleware/jwtCheck');
 const travelLogs = require('./routes/travelLogs');
+const users = require('./routes/users');
 
 const PORT = process.env.PORT || 4000;
 
@@ -45,6 +46,7 @@ app.use(morgan('tiny'))
 // app.use(jwtCheck);
 
 app.use('/travelLogs', travelLogs);
+app.use('/users', users);
 
 app.get('/', (req, res) => {
   res.json({
