@@ -20,7 +20,7 @@ const Navbar = () => {
             Home
           </Menu.Item>
           <Menu.Item onClick={() => history.push('/travel-logs')}>
-            Travel Logs
+            Your Travel Logs
           </Menu.Item>
           <Menu.Item onClick={() => history.push('/create-travel-logs')}>
             Create Travel Log

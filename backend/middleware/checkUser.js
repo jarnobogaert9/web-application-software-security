@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
   // console.log(req.user);
   const { sub } = req.user;
   // get user id (sub)
-  console.log(sub);
+  // console.log(sub);
 
   // check if user already exists in our db
   // if not create new user
@@ -18,6 +18,5 @@ module.exports = async (req, res, next) => {
   } else {
     req.loggedInUser = found;
   }
-  // TODO: create post with id of the user
   next();
 }

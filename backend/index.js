@@ -4,25 +4,49 @@ const app = express();
 const cors = require('cors');
 const axios = require('axios');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const jwtCheck = require('./middleware/jwtCheck');
 const travelLogs = require('./routes/travelLogs');
+const users = require('./routes/users');
 
 const PORT = process.env.PORT || 4000;
 
-mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooeji.mongodb.net?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooeji.mongodb.net?retryWrites=true&w=majority`).then(() => {
   console.log('Connected to mongodb database');
 }).catch(err => {
   console.log(err);
 });
 
-// TODO: laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
 // TODO vermijdt MIME sniffin: x-content-type-options: nosniff
 
-app.use(cors());
+
+
+// laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
+const corsAllowlist = ['https://www.travelr.jarnobogaert.com/', 'https://travelr.jarnobogaert.com/', 'http://localhost:3000'];
+
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions;
+
+  let isDomainAllowed = corsAllowlist.indexOf(req.header('Origin')) !== -1;
+
+  if (isDomainAllowed) {
+    // Enable CORS for this request
+    corsOptions = { origin: true }
+  } else {
+    // Disable CORS for this request
+    corsOptions = { origin: false }
+  }
+  callback(null, corsOptions)
+}
+
+app.use(cors(corsOptionsDelegate));
+
 app.use(express.json());
+app.use(morgan('tiny'))
 // app.use(jwtCheck);
 
 app.use('/travelLogs', travelLogs);
+app.use('/users', users);
 
 app.get('/', (req, res) => {
   res.json({
