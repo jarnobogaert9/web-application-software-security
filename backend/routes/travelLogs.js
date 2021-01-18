@@ -49,7 +49,7 @@ router.get('/own', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
  * POST - /travelLogs
  * Create travel log
  */
-router.post('/', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
+router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck, checkUser, async (req, res) => {
   console.log(req.body);
   // Validate if all fields are filled in
   for (let prop in req.body) {
