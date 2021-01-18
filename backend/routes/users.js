@@ -11,6 +11,9 @@ const router = require('express').Router();
  * GET - /users/:id
  * Return user info
  */
+
+router.options('/:id', cors({ ...corsOptions, methods: "GET, OPTIONS" }))
+
 router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
   const { id: nickname } = req.params;
 

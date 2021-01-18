@@ -16,8 +16,13 @@ const router = require('express').Router();
 
 /**
  * GET - /travelLogs
- * Should return all travel logs
+ * return all travel logs
  */
+
+router.options('/', cors({ ...corsOptions, methods: "GET, POST, OPTIONS" }));
+router.options('/own', cors({ ...corsOptions, methods: "GET, OPTIONS" }));
+router.options('/:id', cors({ ...corsOptions, methods: "DELETE, OPTIONS" }));
+
 router.get('/', cors(corsOptions), async (req, res) => {
   try {
     const logs = await TravelLog.find().populate('owner');
@@ -30,11 +35,9 @@ router.get('/', cors(corsOptions), async (req, res) => {
 
 /**
  * GET - /travelLogs/own
- * Should return all travel logs of a user based on token
+ * return all travel logs of a user based on token
  */
 router.get('/own', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
-  console.log(req.loggedInUser);
-  console.log(req.loggedInUser.sub);
   const { _id } = req.loggedInUser;
   try {
     const logs = await TravelLog.find({ owner: _id });
@@ -50,7 +53,6 @@ router.get('/own', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
  * Create travel log
  */
 router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck, checkUser, async (req, res) => {
-  console.log(req.body);
   // Validate if all fields are filled in
   for (let prop in req.body) {
     if (!req.body[prop]) {
@@ -72,17 +74,15 @@ router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck,
  * Delete travel log
  */
 router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOrAdmin, async (req, res) => {
-  // console.log(req.body);
   // Get id of travel log
   const { id: logId } = req.params;
-  // Check if either the user doing the request is the onwer or an administrator
 
-
-  // // Create travel log if all fields are filled in
-  // const log = new TravelLog({ title, place, description, owner: _id });
-  // await log.save();
-  // res.status(201).json({ msg: 'Endpoint to create travel log' });
-  res.status(200).send({ msg: 'Travel log deleted', status: 'success' });
+  try {
+    await TravelLog.deleteOne({ _id: logId })
+    res.status(200).send({ msg: 'Travel log deleted', status: 'success' });
+  } catch (error) {
+    res.status(500).send({ msg: 'Something went wrong while trying to delete a travel log', status: 'failure' });
+  }
 });
 
 
