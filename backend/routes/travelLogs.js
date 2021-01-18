@@ -32,7 +32,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
  * GET - /travelLogs/own
  * Should return all travel logs of a user based on token
  */
-router.get('/own', jwtCheck, checkUser, async (req, res) => {
+router.get('/own', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
   console.log(req.loggedInUser);
   console.log(req.loggedInUser.sub);
   const { _id } = req.loggedInUser;
@@ -49,7 +49,7 @@ router.get('/own', jwtCheck, checkUser, async (req, res) => {
  * POST - /travelLogs
  * Create travel log
  */
-router.post('/', jwtCheck, checkUser, async (req, res) => {
+router.post('/', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
   console.log(req.body);
   // Validate if all fields are filled in
   for (let prop in req.body) {
@@ -71,7 +71,7 @@ router.post('/', jwtCheck, checkUser, async (req, res) => {
  * DELETE - /travelLogs
  * Delete travel log
  */
-router.delete('/:id', jwtCheck, checkUser, isOwnerOrAdmin, async (req, res) => {
+router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOrAdmin, async (req, res) => {
   // console.log(req.body);
   // Get id of travel log
   const { id: logId } = req.params;

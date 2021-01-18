@@ -1,6 +1,8 @@
 const checkUser = require('../middleware/checkUser');
 const jwtCheck = require('../middleware/jwtCheck');
 const { getAuth0User } = require('../utils/auth0');
+const corsOptions = require('../utils/corsOptions');
+const cors = require('cors');
 
 const router = require('express').Router();
 
@@ -9,7 +11,7 @@ const router = require('express').Router();
  * GET - /users/:id
  * Return user info
  */
-router.get('/:id', jwtCheck, checkUser, async (req, res) => {
+router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
   const { id: nickname } = req.params;
 
   try {
