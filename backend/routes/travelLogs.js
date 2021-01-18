@@ -2,6 +2,8 @@ const checkUser = require('../middleware/checkUser');
 const jwtCheck = require('../middleware/jwtCheck');
 const TravelLog = require('../models/TravelLog');
 const isOwnerOrAdmin = require('../utils/isOwnerOrAdmin');
+const cors = require('cors');
+const corsOptions = require('../utils/corsOptions');
 
 const router = require('express').Router();
 
@@ -16,7 +18,7 @@ const router = require('express').Router();
  * GET - /travelLogs
  * Should return all travel logs
  */
-router.get('/', async (req, res) => {
+router.get('/', cors(corsOptions), async (req, res) => {
   try {
     const logs = await TravelLog.find().populate('owner');
     res.send({ msg: 'Get all travel logs', data: logs, status: 'success' });
