@@ -22,24 +22,24 @@ mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooe
 
 
 // laat alleen requests van origins uit arrary toe anders geef je fout melding (400)
-const corsAllowlist = ['https://www.travelr.jarnobogaert.com/', 'https://travelr.jarnobogaert.com/', 'http://localhost:3000'];
+// const corsAllowlist = ['https://www.travelr.jarnobogaert.com/', 'https://travelr.jarnobogaert.com/', 'http://localhost:3000'];
 
-const corsOptionsDelegate = (req, callback) => {
-  let corsOptions;
+// const corsOptionsDelegate = (req, callback) => {
+//   let corsOptions;
 
-  let isDomainAllowed = corsAllowlist.indexOf(req.header('Origin')) !== -1;
+//   let isDomainAllowed = corsAllowlist.indexOf(req.header('Origin')) !== -1;
 
-  if (isDomainAllowed) {
-    // Enable CORS for this request
-    corsOptions = { origin: true }
-  } else {
-    // Disable CORS for this request
-    corsOptions = { origin: false }
-  }
-  callback(null, corsOptions)
-}
+//   if (isDomainAllowed) {
+//     // Enable CORS for this request
+//     corsOptions = { origin: true }
+//   } else {
+//     // Disable CORS for this request
+//     corsOptions = { origin: false }
+//   }
+//   callback(null, corsOptions)
+// }
 
-app.use(cors(corsOptionsDelegate));
+// app.use(cors(corsOptionsDelegate));
 
 app.use(express.json());
 app.use(morgan('tiny'))
