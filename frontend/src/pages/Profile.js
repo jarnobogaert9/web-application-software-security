@@ -22,7 +22,7 @@ const Profile = () => {
     console.log(json);
 
     let fileURL = window.URL.createObjectURL(
-      new Blob([JSON.stringify(json)], {
+      new Blob([JSON.stringify(json.data)], {
         type: "application/json",
       })
     );
