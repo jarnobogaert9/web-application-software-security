@@ -1,41 +1,32 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { TRAVELR_API } from '../config/keys';
-
-import { Card, Button } from 'semantic-ui-react'
-import { getOwnTravelLogs, deleteTravelLog } from '../services/travelLogService';
 import isAdmin from '../auth/isAdmin';
-import { useHistory } from 'react-router-dom';
 
-const TravelLogs = () => {
+import { Button, Card, Form } from 'semantic-ui-react'
+import { deleteTravelLog, getAllTravelLogs } from '../services/travelLogService';
+
+const Admin = () => {
   const { user, getAccessTokenSilently } = useAuth0();
   const history = useHistory();
-
   const [logs, setLogs] = useState([]);
 
   const checkForAdmin = async () => {
     const token = await getAccessTokenSilently();
     const admin = await isAdmin(token, user.nickname);
     console.log(admin);
-    // If you are admin you can not create a travel log so we redirect
-    if (admin) {
+    if (!admin) {
       history.push('/')
     }
   }
 
   const fetchTravelLogs = async () => {
-    const token = await getAccessTokenSilently();
-    try {
-      const ownLogs = await getOwnTravelLogs({ token })
-      setLogs(ownLogs);
-    } catch (err) {
-      console.log(err);
-    }
-
+    const allTravelLogs = await getAllTravelLogs();
+    setLogs(allTravelLogs);
   }
 
   const deleteLog = async (id) => {
-    console.log(id);
     const token = await getAccessTokenSilently();
     await deleteTravelLog({ token, id });
     fetchTravelLogs();
@@ -45,9 +36,11 @@ const TravelLogs = () => {
     checkForAdmin();
     fetchTravelLogs();
   }, [])
+
   return (
     <>
-      <h1>Travel Logs</h1>
+      <h1>Admin page</h1>
+      <h3>All travel logs of every user</h3>
       {logs.map(log => (
         <Card fluid key={log._id}>
           <Card.Content>
@@ -66,4 +59,4 @@ const TravelLogs = () => {
   )
 }
 
-export default TravelLogs
+export default Admin

@@ -1,9 +1,10 @@
 const checkUser = require('../middleware/checkUser');
 const jwtCheck = require('../middleware/jwtCheck');
 const TravelLog = require('../models/TravelLog');
-const isOwnerOrAdmin = require('../utils/isOwnerOrAdmin');
+const isOwnerOrAdmin = require('../middleware/isOwnerOrAdmin');
 const cors = require('cors');
 const corsOptions = require('../utils/corsOptions');
+const restrictAdmin = require('../middleware/restrictAdmin');
 
 const router = require('express').Router();
 
@@ -31,7 +32,8 @@ router.get('/', cors(corsOptions), async (req, res) => {
  * GET - /travelLogs/own
  * return all travel logs of a user based on token
  */
-router.get('/own', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
+// Because an admin can not create a travel log, an admin can not see his/her own travel logs because the admin has no travel logs
+router.get('/own', cors(corsOptions), jwtCheck, checkUser, restrictAdmin, async (req, res) => {
   const { _id } = req.loggedInUser;
   try {
     const logs = await TravelLog.find({ owner: _id });
@@ -46,7 +48,7 @@ router.get('/own', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
  * POST - /travelLogs
  * Create travel log
  */
-router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck, checkUser, async (req, res) => {
+router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck, checkUser, restrictAdmin, async (req, res) => {
   // Validate if all fields are filled in
   for (let prop in req.body) {
     if (!req.body[prop]) {
