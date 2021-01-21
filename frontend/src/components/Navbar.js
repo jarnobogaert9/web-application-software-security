@@ -39,7 +39,8 @@ const Navbar = () => {
           {isAuthenticated &&
             !admin && <Menu.Item onClick={() => history.push('/travel-logs')}>
               Your Travel Logs
-            </Menu.Item>}
+            </Menu.Item>
+          }
 
           {isAuthenticated &&
             !admin &&
@@ -53,12 +54,12 @@ const Navbar = () => {
               admin &&
               <Menu.Item onClick={() => history.push('/admin')}>
                 Admin page
-            </Menu.Item>
+              </Menu.Item>
             }
             {isAuthenticated &&
               <Menu.Item onClick={() => history.push('/profile')}>
                 Profile
-            </Menu.Item>
+              </Menu.Item>
             }
             <Menu.Item>
               <AuthNav />
