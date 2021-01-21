@@ -25,8 +25,13 @@ const TravelLogs = () => {
 
   const fetchTravelLogs = async () => {
     const token = await getAccessTokenSilently();
-    const ownLogs = await getOwnTravelLogs({ token })
-    setLogs(ownLogs);
+    try {
+      const ownLogs = await getOwnTravelLogs({ token })
+      setLogs(ownLogs);
+    } catch (err) {
+      console.log(err);
+    }
+
   }
 
   const deleteLog = async (id) => {
