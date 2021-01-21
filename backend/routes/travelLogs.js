@@ -1,7 +1,7 @@
 const checkUser = require('../middleware/checkUser');
 const jwtCheck = require('../middleware/jwtCheck');
 const TravelLog = require('../models/TravelLog');
-const isOwnerOrAdmin = require('../utils/isOwnerOrAdmin');
+const isOwnerOrAdmin = require('../middleware/isOwnerOrAdmin');
 const cors = require('cors');
 const corsOptions = require('../utils/corsOptions');
 
