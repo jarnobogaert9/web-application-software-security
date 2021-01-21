@@ -13,7 +13,7 @@ const AuthNav = () => {
 
 const Navbar = () => {
   const history = useHistory();
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [admin, setAdmin] = useState(true);
 
   const checkIfAdmin = async () => {
@@ -24,7 +24,9 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    checkIfAdmin();
+    if (isAuthenticated) {
+      checkIfAdmin();
+    }
   }, []);
 
   return (
@@ -34,27 +36,31 @@ const Navbar = () => {
           <Menu.Item onClick={() => history.push('/')}>
             Home
           </Menu.Item>
-          {!admin &&
-            <Menu.Item onClick={() => history.push('/travel-logs')}>
+          {isAuthenticated &&
+            !admin && <Menu.Item onClick={() => history.push('/travel-logs')}>
               Your Travel Logs
             </Menu.Item>
           }
 
-          {!admin &&
+          {isAuthenticated &&
+            !admin &&
             <Menu.Item onClick={() => history.push('/create-travel-logs')}>
               Create Travel Log
             </Menu.Item>
           }
 
           <Menu.Menu position='right'>
-            {admin &&
+            {isAuthenticated &&
+              admin &&
               <Menu.Item onClick={() => history.push('/admin')}>
                 Admin page
-            </Menu.Item>
+              </Menu.Item>
             }
-            <Menu.Item onClick={() => history.push('/profile')}>
-              Profile
-            </Menu.Item>
+            {isAuthenticated &&
+              <Menu.Item onClick={() => history.push('/profile')}>
+                Profile
+              </Menu.Item>
+            }
             <Menu.Item>
               <AuthNav />
             </Menu.Item>
