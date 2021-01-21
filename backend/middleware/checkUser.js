@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Role = require('../models/Role')
 
 module.exports = async (req, res, next) => {
   // console.log(req.user);
@@ -12,7 +13,9 @@ module.exports = async (req, res, next) => {
   console.log(found);
   if (!found) {
     // User is not found => create user
-    const u = new User({ sub, sub, admin: false });
+    // Get normalRole so we can add it to the user
+    const normalRole = await Role.findOne({ type: 'normal' });
+    const u = new User({ sub, role: normalRole._id });
     await u.save();
     req.loggedInUser = u;
   } else {
