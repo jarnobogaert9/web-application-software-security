@@ -56,8 +56,6 @@ Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 
 > Dit is een route om te controlere of de API nog online staat, GET: geen authenticatie vereist
 
-<hr>
-
 ### /travelLogs
 
 - GET
@@ -66,16 +64,12 @@ Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 
 > GET: geen authenticatie vereist, POST: authenticatie vereist
 
-<hr>
-
 ### /travelLogs/:id
 
 - DELETE
 - OPTIONS
 
 > DELETE: authenticatie vereist
-
-<hr>
 
 ### /travelLogs/own
 
@@ -84,16 +78,12 @@ Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 
 > GET: authenticatie vereist
 
-<hr>
-
 ### /users/:id
 
 - GET
 - OPTIONS
 
 > GET: authenticatie vereist
-
-<hr>
 
 Alle operaties zijn alleen toegelaten vanuit deze origin: https://www.jarnob.xyz
 
