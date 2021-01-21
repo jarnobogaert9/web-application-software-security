@@ -12,6 +12,8 @@ import TravelLogs from './pages/TravelLogs';
 
 import { Container } from 'semantic-ui-react'
 import CreateTravelLogs from './pages/CreateTravelLog';
+import Footer from './components/Footer';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 function App() {
   const { isLoading } = useAuth0();
@@ -23,12 +25,14 @@ function App() {
   return (
     <>
       <Navbar />
-      <Container>
+      <Container className="addSpacer">
         <Route path="/" component={Home} exact />
+        <Route path="/privacy-policy" component={PrivacyPolicy} exact />
         <PrivateRoute path="/travel-logs" component={TravelLogs} />
         <PrivateRoute path="/create-travel-logs" component={CreateTravelLogs} />
         <PrivateRoute path="/profile" component={Profile} />
       </Container>
+      <Footer />
     </>
   );
 }
