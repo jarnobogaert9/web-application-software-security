@@ -1,4 +1,5 @@
 const TravelLog = require('../models/TravelLog');
+const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
   // Get user id of travel log
@@ -6,10 +7,15 @@ module.exports = async (req, res, next) => {
   // Get user id of user
   const { _id: userId } = req.loggedInUser;
 
-  // TODO check if admin
-  // if (isAdmin) {
-  //   return next();
-  // }
+  // Get the user who is requesting this
+  const u = await User.findById(userId).populate('role');
+  const { type } = u.role;
+  console.log(u);
+
+  // check if admin
+  if (type == 'admin') {
+    return next();
+  }
 
   // Check if user is owner
   const isOwner = await TravelLog.findOne({ _id: logId, owner: userId });
