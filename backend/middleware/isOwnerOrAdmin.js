@@ -2,7 +2,7 @@ const TravelLog = require('../models/TravelLog');
 const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
-  // Get user id of travel log
+  // Get id of travel log
   const { id: logId } = req.params;
   // Get user id of user
   const { _id: userId } = req.loggedInUser;
