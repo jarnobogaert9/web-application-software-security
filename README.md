@@ -12,7 +12,7 @@ De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
 
 [REST API's](#REST-API's)
 
-[Resources](#Resources)
+[Toegangscontrole policy](#Toegangscontrole-policy)
 
 ## Verwerkingsregister
 
@@ -48,63 +48,63 @@ De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
 
 Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 
-### Resources
+**Resources**
 
-- / (root)
+### (root)
 
-  - GET
+- GET
 
-> Dit is een route om te controlere of de API nog online staat, GET: geen authenticate vereist
-
-<hr>
-
-- /travelLogs
-
-  - GET
-  - POST
-  - OPTIONS
-
-> GET: geen authenticate vereist, POST: authenticate vereist
+> Dit is een route om te controlere of de API nog online staat, GET: geen authenticatie vereist
 
 <hr>
 
-- /travelLogs/:id
+### /travelLogs
 
-  - DELETE
-  - OPTIONS
+- GET
+- POST
+- OPTIONS
 
-> DELETE: authenticate vereist
-
-<hr>
-
-- /travelLogs/own
-
-  - GET
-  - OPTIONS
-
-> GET: authenticate vereist
+> GET: geen authenticatie vereist, POST: authenticatie vereist
 
 <hr>
 
-- /users/:id
+### /travelLogs/:id
 
-  - GET
-  - OPTIONS
+- DELETE
+- OPTIONS
 
-> GET: authenticate vereist
+> DELETE: authenticatie vereist
+
+<hr>
+
+### /travelLogs/own
+
+- GET
+- OPTIONS
+
+> GET: authenticatie vereist
+
+<hr>
+
+### /users/:id
+
+- GET
+- OPTIONS
+
+> GET: authenticatie vereist
 
 <hr>
 
 Alle operaties zijn alleen toegelaten vanuit deze origin: https://www.jarnob.xyz
 
-### Toegangscontrole policy
+## Toegangscontrole policy
 
 Voor alle operaties behalve het oplijsten van travel logs moet de gebruiker aangemeld zijn.
 
-#### Normal user (gebruikers)
+### Normal user (gebruikers)
 
 Kan create/update/delete acties uitvoeren op travel logs. Maar de gebruiker kan geen travel logs van andere gebruikers verwijderen of wijzigen.
 
-#### Admin (beheerders)
+### Admin (beheerders)
 
 Kan travel logs verwijderen. Maar kan geen travel logs aanmaken of wijzigen.
