@@ -1,7 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Container, Menu } from 'semantic-ui-react';
+import isAdmin from '../auth/isAdmin';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 
@@ -12,6 +13,20 @@ const AuthNav = () => {
 
 const Navbar = () => {
   const history = useHistory();
+  const { user, getAccessTokenSilently } = useAuth0();
+  const [admin, setAdmin] = useState(true);
+
+  const checkIfAdmin = async () => {
+    const token = await getAccessTokenSilently();
+    const admin = await isAdmin(token, user.nickname);
+    console.log(admin);
+    setAdmin(admin)
+  }
+
+  useEffect(() => {
+    checkIfAdmin();
+  }, []);
+
   return (
     <div>
       <Container>
@@ -19,14 +34,24 @@ const Navbar = () => {
           <Menu.Item onClick={() => history.push('/')}>
             Home
           </Menu.Item>
-          <Menu.Item onClick={() => history.push('/travel-logs')}>
-            Your Travel Logs
-          </Menu.Item>
-          <Menu.Item onClick={() => history.push('/create-travel-logs')}>
-            Create Travel Log
-          </Menu.Item>
+          {!admin &&
+            <Menu.Item onClick={() => history.push('/travel-logs')}>
+              Your Travel Logs
+            </Menu.Item>
+          }
+
+          {!admin &&
+            <Menu.Item onClick={() => history.push('/create-travel-logs')}>
+              Create Travel Log
+            </Menu.Item>
+          }
 
           <Menu.Menu position='right'>
+            {admin &&
+              <Menu.Item onClick={() => history.push('/admin')}>
+                Admin page
+            </Menu.Item>
+            }
             <Menu.Item onClick={() => history.push('/profile')}>
               Profile
             </Menu.Item>

@@ -3,27 +3,27 @@ import React, { useEffect, useState } from 'react'
 import { TRAVELR_API } from '../config/keys';
 
 import { Button, Form } from 'semantic-ui-react'
+import isAdmin from '../auth/isAdmin';
+import { useHistory } from 'react-router-dom';
 
 const CreateTravelLogs = () => {
   const { user, getAccessTokenSilently } = useAuth0();
+  const history = useHistory();
 
   const [title, setTitle] = useState('');
   const [place, setPlace] = useState('');
   const [description, setDescription] = useState('');
+  const [logs, setLogs] = useState([]);
 
-  const fetchTravelLogs = async () => {
-    // Make api request to get user travel logs
+
+  const checkForAdmin = async () => {
     const token = await getAccessTokenSilently();
-
-    const response = await fetch(`${TRAVELR_API}/travelLogs`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-      }
-    });
-    console.log(response);
-    const json = await response.json();
-    console.log(json);
+    const admin = await isAdmin(token, user.nickname);
+    console.log(admin);
+    // If you are admin you can not create a travel log so we redirect
+    if (admin) {
+      history.push('/')
+    }
   }
 
   const createTraveLog = async () => {
@@ -60,6 +60,7 @@ const CreateTravelLogs = () => {
   }
 
   useEffect(() => {
+    checkForAdmin();
   }, [])
   return (
     <div>

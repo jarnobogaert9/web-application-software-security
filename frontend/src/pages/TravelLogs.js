@@ -3,76 +3,61 @@ import React, { useEffect, useState } from 'react'
 import { TRAVELR_API } from '../config/keys';
 
 import { Card, Button } from 'semantic-ui-react'
+import { getOwnTravelLogs, deleteTravelLog } from '../services/travelLogService';
+import isAdmin from '../auth/isAdmin';
+import { useHistory } from 'react-router-dom';
 
 const TravelLogs = () => {
   const { user, getAccessTokenSilently } = useAuth0();
+  const history = useHistory();
 
   const [logs, setLogs] = useState([]);
 
-  const fetchTravelLogs = async () => {
-    // Make api request to get user travel logs
+  const checkForAdmin = async () => {
     const token = await getAccessTokenSilently();
-
-    const response = await fetch(`${TRAVELR_API}/travelLogs/own`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json'
-      }
-    });
-    console.log(response);
-    const json = await response.json();
-    console.log(json);
-    if (response.status === 200) {
-      // Show logs on screen
-      setLogs(json.data);
+    const admin = await isAdmin(token, user.nickname);
+    console.log(admin);
+    // If you are admin you can not create a travel log so we redirect
+    if (admin) {
+      history.push('/')
     }
   }
 
-  const deleteTravelLog = async (id) => {
+  const fetchTravelLogs = async () => {
+    const token = await getAccessTokenSilently();
+    const ownLogs = await getOwnTravelLogs({ token })
+    setLogs(ownLogs);
+  }
+
+  const deleteLog = async (id) => {
     console.log(id);
     const token = await getAccessTokenSilently();
-
-    const response = await fetch(`${TRAVELR_API}/travelLogs/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json'
-      }
-    });
-    console.log(response);
-    const json = await response.json();
-    console.log(json);
-    if (response.status === 200) {
-      // Show logs on screen
-      console.log('reload logs');
-      fetchTravelLogs();
-    }
+    await deleteTravelLog({ token, id });
+    fetchTravelLogs();
   }
 
   useEffect(() => {
+    checkForAdmin();
     fetchTravelLogs();
   }, [])
   return (
-    <div>
+    <>
       <h1>Travel Logs</h1>
       {logs.map(log => (
-        <>
-          <Card fluid key={log._id}>
-            <Card.Content>
-              <Card.Header>{log.title}</Card.Header>
-              <Card.Meta>{log.place}</Card.Meta>
-              <Card.Description>
-                {log.description}
-              </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-              {/* <Button basic color='blue'>Edit</Button> */}
-              <Button basic color='red' onClick={() => deleteTravelLog(log._id)}>Delete</Button>
-            </Card.Content>
-          </Card>
-        </>
+        <Card fluid key={log._id}>
+          <Card.Content>
+            <Card.Header>{log.title}</Card.Header>
+            <Card.Meta>{log.place}</Card.Meta>
+            <Card.Description>
+              {log.description}
+            </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            <Button basic color='red' onClick={() => deleteLog(log._id)}>Delete</Button>
+          </Card.Content>
+        </Card>
       ))}
-    </div>
+    </>
   )
 }
 
