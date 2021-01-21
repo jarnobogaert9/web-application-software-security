@@ -30,7 +30,8 @@ const getAuth0User = async (sub, nickname) => {
     url: `${process.env.AUTH0_ISSUER}api/v2/users/${sub}`,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Bearer ${access_token}`
+      Authorization: `Bearer ${access_token}`,
+      Accept: 'application/json',
     },
   };
   const response = await axios.request(options);

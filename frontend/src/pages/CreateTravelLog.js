@@ -17,7 +17,8 @@ const CreateTravelLogs = () => {
 
     const response = await fetch(`${TRAVELR_API}/travelLogs`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
       }
     });
     console.log(response);
@@ -41,7 +42,8 @@ const CreateTravelLogs = () => {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(data)
     });
