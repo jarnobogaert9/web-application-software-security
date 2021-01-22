@@ -11,7 +11,7 @@ router.options('/', cors({ ...corsOptions, methods: "GET, OPTIONS" }))
 
 /**
  * GET - /user
- * Return user based on token
+ * Return user based on sub which is being set by the middleware
  */
 router.get('/', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
   try {
