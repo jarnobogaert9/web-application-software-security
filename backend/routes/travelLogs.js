@@ -5,6 +5,7 @@ const isOwnerOrAdmin = require('../middleware/isOwnerOrAdmin');
 const cors = require('cors');
 const corsOptions = require('../utils/corsOptions');
 const restrictAdmin = require('../middleware/restrictAdmin');
+const contentNegotationJson = require('../middleware/contentNegotationJson');
 
 const router = require('express').Router();
 
@@ -48,7 +49,7 @@ router.get('/own', cors(corsOptions), jwtCheck, checkUser, restrictAdmin, async 
  * POST - /travelLogs
  * Create travel log
  */
-router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck, checkUser, restrictAdmin, async (req, res) => {
+router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck, checkUser, restrictAdmin, contentNegotationJson, async (req, res) => {
   // Validate if all fields are filled in
   for (let prop in req.body) {
     if (!req.body[prop]) {
@@ -62,7 +63,7 @@ router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck,
   // Create travel log if all fields are filled in
   const log = new TravelLog({ title, place, description, owner: _id });
   await log.save();
-  res.status(201).json({ msg: 'Endpoint to create travel log' });
+  res.status(201).json({ msg: 'Travel log created.' });
 });
 
 /**

@@ -43,20 +43,51 @@ const getOwnTravelLogs = async ({ token }) => {
   }
 }
 
-const deleteTravelLog = async ({ token, id }) => {
-  const response = await fetch(`${TRAVELR_API}/travelLogs/${id}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json'
+const createTraveLog = async ({ token, data }) => {
+  try {
+    const response = await fetch(`${TRAVELR_API}/travelLogs`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+    console.log(response);
+    const json = await response.json();
+    console.log(json);
+    if (response === 201) {
+      return true;
+    } else {
+      return false;
     }
-  });
-  console.log(response);
-  const json = await response.json();
-  console.log(json);
-  if (response.status === 200) {
-    return true;
+  } catch (err) {
+    return false;
   }
 }
 
-export { getAllTravelLogs, getOwnTravelLogs, deleteTravelLog }
+const deleteTravelLog = async ({ token, id }) => {
+  try {
+    const response = await fetch(`${TRAVELR_API}/travelLogs/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json'
+      }
+    });
+    console.log(response);
+    const json = await response.json();
+    console.log(json);
+    if (response.status === 200) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return false;
+  }
+
+}
+
+export { getAllTravelLogs, getOwnTravelLogs, deleteTravelLog, createTraveLog }

@@ -5,6 +5,7 @@ import { TRAVELR_API } from '../config/keys';
 import { Button, Form } from 'semantic-ui-react'
 import isAdmin from '../auth/isAdmin';
 import { useHistory } from 'react-router-dom';
+import { createTraveLog } from '../services/travelLogService';
 
 const CreateTravelLogs = () => {
   const { user, getAccessTokenSilently } = useAuth0();
@@ -26,7 +27,7 @@ const CreateTravelLogs = () => {
     }
   }
 
-  const createTraveLog = async () => {
+  const create = async () => {
     console.log('Create log');
     console.log(title, place, description);
     // Make request to api to create a travel log
@@ -38,19 +39,10 @@ const CreateTravelLogs = () => {
       description
     }
 
-    const response = await fetch(`${TRAVELR_API}/travelLogs`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(data)
-    });
-    console.log(response);
-    const json = await response.json();
-    console.log(json);
+    await createTraveLog({ token, data });
+
     clearForm();
+    return;
   }
 
   const clearForm = () => {
@@ -75,7 +67,7 @@ const CreateTravelLogs = () => {
           <input value={place} onChange={(e) => setPlace(e.target.value)} placeholder='Enter place ex. Dubai' />
         </Form.Field>
         <Form.TextArea value={description} onChange={(e) => setDescription(e.target.value)} label='Description' placeholder='Tell us more about your travel trip' />
-        <Button type='submit' onClick={() => createTraveLog()}>Create Log</Button>
+        <Button type='submit' onClick={() => create()}>Create Log</Button>
       </Form>
     </div>
   )
