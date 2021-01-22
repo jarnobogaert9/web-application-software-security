@@ -2,6 +2,7 @@ import { TRAVELR_API } from '../config/keys';
 
 const isAdmin = async (token, sub) => {
   // Api call to check if a given user is admin
+  console.log("isAdmin, nickanme:", sub);
   const response = await fetch(`${TRAVELR_API}/users/${sub}`, {
     headers: {
       Authorization: `Bearer ${token}`,

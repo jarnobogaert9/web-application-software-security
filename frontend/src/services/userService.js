@@ -1,9 +1,9 @@
 import { TRAVELR_API } from '../config/keys';
 
-const deleteUserAccount = async ({ token, nickname }) => {
+const deleteUserAccount = async ({ token, sub }) => {
   // Make api request to get user travel logs
   try {
-    const response = await fetch(`${TRAVELR_API}/users/${nickname}`, {
+    const response = await fetch(`${TRAVELR_API}/users/${sub}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,7 +64,52 @@ const updateUserAccount = async ({ token, nickname, newNickname }) => {
   }
 }
 
+const getAllUserAccounts = async () => {
+  try {
+    const response = await fetch(`${TRAVELR_API}/users`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json'
+      }
+    });
+    console.log(response);
+    const json = await response.json();
+    console.log(json);
+    if (response.status === 200) {
+      return json.data;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    return [];
+  }
+}
+
+const getUser = async ({ token }) => {
+  try {
+    const response = await fetch(`${TRAVELR_API}/user`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      }
+    });
+    console.log(response);
+    const json = await response.json();
+    console.log(json);
+    if (response.status === 200) {
+      return json.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return false;
+  }
+}
+
 export {
   deleteUserAccount,
-  updateUserAccount
+  updateUserAccount,
+  getAllUserAccounts,
+  getUser
 }

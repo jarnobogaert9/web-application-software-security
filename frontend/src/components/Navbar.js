@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Container, Menu } from 'semantic-ui-react';
 import isAdmin from '../auth/isAdmin';
+import { getUser } from '../services/userService';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 
@@ -18,7 +19,8 @@ const Navbar = () => {
 
   const checkIfAdmin = async () => {
     const token = await getAccessTokenSilently();
-    const admin = await isAdmin(token, user.nickname);
+    const { sub } = await getUser({ token });
+    const admin = await isAdmin(token, sub);
     console.log(admin);
     setAdmin(admin)
   }

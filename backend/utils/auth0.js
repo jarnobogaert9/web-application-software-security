@@ -22,14 +22,13 @@ const getToken = async () => {
   }
 }
 
-const getAuth0User = async (sub, nickname) => {
+const getAuth0User = async (sub) => {
   const access_token = await getToken();
 
   const options = {
     method: 'GET',
     url: `${process.env.AUTH0_ISSUER}api/v2/users/${sub}`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Bearer ${access_token}`,
       Accept: 'application/json',
     },
@@ -41,13 +40,30 @@ const getAuth0User = async (sub, nickname) => {
   throw Error('Something went wrong while trying to get user data from auth0.');
 }
 
-const deleteAuth0User = async (sub, nickname) => {
+const getAllAuth0Users = async () => {
+  const access_token = await getToken();
+
+  const options = {
+    method: 'GET',
+    url: `${process.env.AUTH0_ISSUER}api/v2/users`,
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      Accept: 'application/json',
+    },
+  };
+  const response = await axios.request(options);
+  if (response.status === 200) {
+    return response.data;
+  }
+  throw Error('Something went wrong while trying to get all users from auth0.');
+}
+
+const deleteAuth0User = async (sub) => {
   const access_token = await getToken();
   const options = {
     method: 'DELETE',
     url: `${process.env.AUTH0_ISSUER}api/v2/users/${sub}`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Bearer ${access_token}`,
       Accept: 'application/json',
     },
@@ -81,5 +97,6 @@ const updateAuth0User = async (sub, newNickname) => {
 module.exports = {
   getAuth0User,
   deleteAuth0User,
-  updateAuth0User
+  updateAuth0User,
+  getAllAuth0Users
 }

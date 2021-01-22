@@ -1,6 +1,6 @@
 const checkUser = require('../middleware/checkUser');
 const jwtCheck = require('../middleware/jwtCheck');
-const { getAuth0User, deleteAuth0User, updateAuth0User } = require('../utils/auth0');
+const { getAuth0User, deleteAuth0User, updateAuth0User, getAllAuth0Users } = require('../utils/auth0');
 const corsOptions = require('../utils/corsOptions');
 const cors = require('cors');
 const User = require('../models/User');
@@ -12,19 +12,42 @@ const router = require('express').Router();
 router.options('/:id', cors({ ...corsOptions, methods: "GET, PUT, DELETE, OPTIONS" }))
 
 /**
+ * GET - /users
+ * Return users
+ */
+router.get('/', cors(corsOptions), async (req, res) => {
+  try {
+    // Get users
+    const users = await getAllAuth0Users();
+    const mutatedUsers = [];
+
+    for (let user of users) {
+      const { email, nickname } = user;
+      mutatedUsers.push({
+        email,
+        nickname
+      })
+    }
+
+    res.status(200).send({ data: users, status: 'success' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ msg: 'Something went wrong while trying to get all users', status: 'failure' });
+  }
+});
+
+/**
  * GET - /users/:id
  * Return user info
  */
-router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
-  const { id: nickname } = req.params;
+router.get('/:id', cors(corsOptions), async (req, res) => {
+  const { id: sub } = req.params;
 
   try {
-    const { sub } = req.loggedInUser;
     // Get auth0 data
-    const data = await getAuth0User(sub, nickname);
+    const data = await getAuth0User(sub);
     // Get user from own db to extract role
     const user = await User.findOne({ sub }).populate('role');
-    // console.log('here:', user);
 
     res.status(200).send({ data: { ...data, role: user.role.type }, status: 'success' });
   } catch (err) {
@@ -39,12 +62,17 @@ router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
  * Update user
  */
 router.put('/:id', cors(corsOptions), jwtCheck, checkUser, contentNegotationJson, async (req, res) => {
-  // const { id: nickname } = req.params;
+  const { id: nickname } = req.params;
   const { newNickname } = req.body;
 
   try {
-    const { sub } = req.loggedInUser;
+    // Get sub based on incoming nickname
+    const users = await getAllAuth0Users();
+    const auth0User = users.find(user => user.nickname === nickname);
+    const { user_id: sub } = auth0User;
+    console.log("Update data of user:", sub);
     console.log(sub, newNickname);
+
     // Update userdata in auth0
     await updateAuth0User(sub, newNickname);
 
@@ -61,17 +89,17 @@ router.put('/:id', cors(corsOptions), jwtCheck, checkUser, contentNegotationJson
  * Delete user
  */
 router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
-  const { id: nickname } = req.params;
+  const { id: sub } = req.params;
 
   try {
-    const { sub } = req.loggedInUser;
+    console.log("Delete data of user:", sub);
 
     // Delete user in auth0
     // Delete user in own database
     await User.deleteOne({ sub });
-    await deleteAuth0User(sub, nickname);
+    await deleteAuth0User(sub);
 
-    res.status(200).send({ msg: 'Your account has been deleted.', status: 'success' });
+    res.status(200).send({ msg: 'Account has been deleted.', status: 'success' });
   } catch (err) {
     console.log(err);
     res.status(500).send({ msg: 'Something went wrong while trying to delete your account. Please try again later.', status: 'failure' });
