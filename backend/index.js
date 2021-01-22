@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const jwtCheck = require('./middleware/jwtCheck');
 const travelLogs = require('./routes/travelLogs');
 const users = require('./routes/users');
+const user = require('./routes/user');
 const Role = require('./models/Role');
 
 
@@ -40,6 +41,7 @@ app.use(morgan('tiny'))
 
 app.use('/travelLogs', travelLogs);
 app.use('/users', users);
+app.use('/user', user);
 
 
 app.get('/', (req, res) => {

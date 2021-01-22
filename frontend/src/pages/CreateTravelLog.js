@@ -6,6 +6,7 @@ import { Button, Form } from 'semantic-ui-react'
 import isAdmin from '../auth/isAdmin';
 import { useHistory } from 'react-router-dom';
 import { createTraveLog } from '../services/travelLogService';
+import { getUser } from '../services/userService';
 
 const CreateTravelLogs = () => {
   const { user, getAccessTokenSilently } = useAuth0();
@@ -19,7 +20,8 @@ const CreateTravelLogs = () => {
 
   const checkForAdmin = async () => {
     const token = await getAccessTokenSilently();
-    const admin = await isAdmin(token, user.nickname);
+    const { sub } = await getUser({ token });
+    const admin = await isAdmin(token, sub);
     console.log(admin);
     // If you are admin you can not create a travel log so we redirect
     if (admin) {

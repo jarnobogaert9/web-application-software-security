@@ -6,6 +6,7 @@ const cors = require('cors');
 const corsOptions = require('../utils/corsOptions');
 const restrictAdmin = require('../middleware/restrictAdmin');
 const contentNegotationJson = require('../middleware/contentNegotationJson');
+const populateMutatedLogs = require('../utils/populateMutatedLogs');
 
 const router = require('express').Router();
 
@@ -22,7 +23,10 @@ router.options('/:id', cors({ ...corsOptions, methods: "DELETE, OPTIONS" }));
 router.get('/', cors(corsOptions), async (req, res) => {
   try {
     const logs = await TravelLog.find().populate('owner');
-    res.send({ msg: 'Get all travel logs', data: logs, status: 'success' });
+
+    const mutatedLogs = await populateMutatedLogs(logs)
+
+    res.send({ msg: 'Get all travel logs', data: mutatedLogs, status: 'success' });
   } catch (err) {
     res.status(500).send({ msg: 'Something went while trying to get all travel logs', status: 'failure' });
   }

@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import React, { useState, useEffect } from 'react'
 import { Button, Divider, Form } from 'semantic-ui-react'
 import { TRAVELR_API } from '../config/keys';
-import { deleteUserAccount, updateUserAccount } from '../services/userService';
+import { deleteUserAccount, getUser, updateUserAccount } from '../services/userService';
 
 const Profile = () => {
   const { user, getAccessTokenSilently, logout } = useAuth0();
@@ -13,7 +13,6 @@ const Profile = () => {
 
   const getPersonalData = async () => {
     setDownloading(true);
-
     const token = await getAccessTokenSilently();
 
     const response = await fetch(`${TRAVELR_API}/users/${user.nickname}`, {
@@ -45,7 +44,10 @@ const Profile = () => {
 
     if (window.confirm('Are you sure you want to delete your account?')) {
       console.log('Delete it');
-      const result = await deleteUserAccount({ token, nickname: user.nickname });
+      // Get sub of the user that is authenticated
+      const { sub } = await getUser({ token });
+      // Delete user account based on token (wich is of the logged in user in this case)
+      const result = await deleteUserAccount({ token, sub });
       if (result.deleted) {
         logout();
       } else {
@@ -67,6 +69,10 @@ const Profile = () => {
     const result = await updateUserAccount({ token, nickname: user.nickname, newNickname });
 
     if (result.updated) {
+      // Update tokens in localStorage
+      await getAccessTokenSilently({
+        ignoreCache: false,
+      });
       alert(result.msg);
     } else {
       alert(result.msg);
