@@ -81,9 +81,11 @@ Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 ### /users/:id
 
 - GET
+- PUT
+- DELETE
 - OPTIONS
 
-> GET: authenticatie vereist
+> GET, PUT & DELETE: authenticatie vereist
 
 Alle operaties zijn alleen toegelaten vanuit deze origin: https://www.jarnob.xyz
 
@@ -93,8 +95,14 @@ Voor alle operaties behalve het oplijsten van travel logs moet de gebruiker aang
 
 ### Normal user (gebruikers)
 
-Kan create/update/delete acties uitvoeren op travel logs. Maar de gebruiker kan geen travel logs van andere gebruikers verwijderen of wijzigen.
+Kan travel logs aanmaken, wijzigen en verwijderen. Maar de gebruiker kan geen travel logs van andere gebruikers verwijderen of wijzigen.
+
+Kan zijn gebruikersgegevens wijzigen of verwijderen. Maar de gebruiker kan geen gebruikersgegevens van andere gebruikers wijzigen of verwijderen.
 
 ### Admin (beheerders)
 
 Kan travel logs verwijderen. Maar kan geen travel logs aanmaken of wijzigen.
+
+Kan gebruikers verwijderen. Maar kan geen gebruikers aanmaken of wijzigen.
+
+Kan wel zijn eigen gebruikersgegevens wijzigen of verwijderen.
