@@ -20,7 +20,9 @@ const Home = () => {
 
   return (
     <>
-      <h1>Homepage</h1>
+      <h1>What is <b>Travelr</b> ?</h1>
+      <p>Travelr is a platform where you can share your traveling experiences. At Travelr we call this "Travel Logs".</p>
+      <h1>All Travel Logs</h1>
       {logs.map(log => (
         <Card fluid key={log._id}>
           <Card.Content>
