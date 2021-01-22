@@ -41,4 +41,47 @@ const getAuth0User = async (sub, nickname) => {
   throw Error('Nickname does not match');
 }
 
-module.exports = { getAuth0User }
+const deleteAuth0User = async (sub, nickname) => {
+  const access_token = await getToken();
+  const options = {
+    method: 'DELETE',
+    url: `${process.env.AUTH0_ISSUER}api/v2/users/${sub}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${access_token}`,
+      Accept: 'application/json',
+    },
+  };
+  const response = await axios.request(options);
+  console.log(response);
+  if (response.status === 204) {
+    return true;
+  }
+  throw Error('Something went wrong while trying to delete user a in auth0.');
+}
+
+const updateAuth0User = async (sub, newNickname) => {
+  const access_token = await getToken();
+  const options = {
+    method: 'PATCH',
+    url: `${process.env.AUTH0_ISSUER}api/v2/users/${sub}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${access_token}`,
+      Accept: 'application/json',
+    },
+    data: JSON.stringify({ nickname: newNickname })
+  };
+  const response = await axios.request(options);
+  console.log(response);
+  if (response.status === 204) {
+    return true;
+  }
+  throw Error('Something went wrong while trying to update a user in auth0.');
+}
+
+module.exports = {
+  getAuth0User,
+  deleteAuth0User,
+  updateAuth0User
+}
