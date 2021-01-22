@@ -35,10 +35,10 @@ const getAuth0User = async (sub, nickname) => {
     },
   };
   const response = await axios.request(options);
-  if (nickname === response.data.nickname) {
+  if (response.status === 200) {
     return response.data;
   }
-  throw Error('Nickname does not match');
+  throw Error('Something went wrong while trying to get user data from auth0.');
 }
 
 const deleteAuth0User = async (sub, nickname) => {
@@ -53,7 +53,6 @@ const deleteAuth0User = async (sub, nickname) => {
     },
   };
   const response = await axios.request(options);
-  console.log(response);
   if (response.status === 204) {
     return true;
   }
@@ -66,15 +65,14 @@ const updateAuth0User = async (sub, newNickname) => {
     method: 'PATCH',
     url: `${process.env.AUTH0_ISSUER}api/v2/users/${sub}`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${access_token}`,
       Accept: 'application/json',
     },
     data: JSON.stringify({ nickname: newNickname })
   };
   const response = await axios.request(options);
-  console.log(response);
-  if (response.status === 204) {
+  if (response.status === 200) {
     return true;
   }
   throw Error('Something went wrong while trying to update a user in auth0.');

@@ -1,6 +1,6 @@
 const checkUser = require('../middleware/checkUser');
 const jwtCheck = require('../middleware/jwtCheck');
-const { getAuth0User, deleteAuth0User } = require('../utils/auth0');
+const { getAuth0User, deleteAuth0User, updateAuth0User } = require('../utils/auth0');
 const corsOptions = require('../utils/corsOptions');
 const cors = require('cors');
 const User = require('../models/User');
@@ -46,7 +46,7 @@ router.put('/:id', cors(corsOptions), jwtCheck, checkUser, contentNegotationJson
     const { sub } = req.loggedInUser;
     console.log(sub, newNickname);
     // Update userdata in auth0
-    // await updateAuth0User(sub, newNickname);
+    await updateAuth0User(sub, newNickname);
 
     res.status(200).send({ msg: 'Your account has been updated.', status: 'success' });
   } catch (err) {
