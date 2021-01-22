@@ -85,6 +85,13 @@ Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 
 > GET: authenticatie vereist
 
+### /users
+
+- GET
+- OPTIONS
+
+> GET: geen authenticatie vereist
+
 ### /users/:id
 
 - GET

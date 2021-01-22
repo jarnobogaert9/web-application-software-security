@@ -22,14 +22,15 @@ router.get('/', cors(corsOptions), async (req, res) => {
     const mutatedUsers = [];
 
     for (let user of users) {
-      const { email, nickname } = user;
+      const { email, nickname, user_id } = user;
       mutatedUsers.push({
         email,
-        nickname
+        nickname,
+        user_id
       })
     }
 
-    res.status(200).send({ data: users, status: 'success' });
+    res.status(200).send({ data: mutatedUsers, status: 'success' });
   } catch (err) {
     console.log(err);
     res.status(500).send({ msg: 'Something went wrong while trying to get all users', status: 'failure' });
