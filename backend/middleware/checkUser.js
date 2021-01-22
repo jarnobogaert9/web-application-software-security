@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
   // check if user already exists in our db
   // if not create new user
   const found = await User.findOne({ sub: sub });
-  console.log(found);
+  // console.log(found);
   if (!found) {
     // User is not found => create user
     // Get normalRole so we can add it to the user
