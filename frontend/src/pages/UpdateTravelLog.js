@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, Form } from 'semantic-ui-react'
 import isAdmin from '../auth/isAdmin';
-import { useHistory } from 'react-router-dom';
-import { createTraveLog } from '../services/travelLogService';
+import { useHistory, useParams } from 'react-router-dom';
+import { getOneTravelLog, updateTravelLog } from '../services/travelLogService';
 import { getUser } from '../services/userService';
+
 
 const CreateTravelLogs = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -14,6 +15,8 @@ const CreateTravelLogs = () => {
   const [title, setTitle] = useState('');
   const [place, setPlace] = useState('');
   const [description, setDescription] = useState('');
+  const [logId, setLogId] = useState('');
+  let { id } = useParams();
 
 
   const checkForAdmin = async () => {
@@ -27,8 +30,8 @@ const CreateTravelLogs = () => {
     }
   }
 
-  const create = async () => {
-    console.log('Create log');
+  const update = async () => {
+    console.log('Update log');
     console.log(title, place, description);
     // Make request to api to create a travel log
     const token = await getAccessTokenSilently();
@@ -38,10 +41,11 @@ const CreateTravelLogs = () => {
       place,
       description
     }
+    console.log(data, logId);
 
-    await createTraveLog({ token, data });
+    await updateTravelLog({ token, data, id: logId });
 
-    clearForm();
+    // clearForm();
     return;
   }
 
@@ -51,12 +55,23 @@ const CreateTravelLogs = () => {
     setDescription('');
   }
 
+  const loadTravelLog = async () => {
+    console.log('get log:', id);
+    const token = await getAccessTokenSilently();
+    const { title, place, description, _id } = await getOneTravelLog({ token, id });
+    setTitle(title);
+    setPlace(place);
+    setDescription(description);
+    setLogId(_id);
+  }
+
   useEffect(() => {
     checkForAdmin();
+    loadTravelLog();
   }, [])
   return (
     <div>
-      <h1>Create Travel Log</h1>
+      <h1>Update Travel Log</h1>
       <Form>
         <Form.Field>
           <label>Title</label>
@@ -67,7 +82,7 @@ const CreateTravelLogs = () => {
           <input value={place} onChange={(e) => setPlace(e.target.value)} placeholder='Enter place ex. Dubai' />
         </Form.Field>
         <Form.TextArea value={description} onChange={(e) => setDescription(e.target.value)} label='Description' placeholder='Tell us more about your travel trip' />
-        <Button color="green" type='submit' onClick={() => create()}>Create Log</Button>
+        <Button color="yellow" type='submit' onClick={() => update()}>Update Log</Button>
       </Form>
     </div>
   )

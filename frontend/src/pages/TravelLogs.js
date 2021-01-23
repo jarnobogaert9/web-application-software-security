@@ -42,6 +42,10 @@ const TravelLogs = () => {
     fetchTravelLogs();
   }
 
+  const updateLog = async (id) => {
+    history.push(`/travellogs/update/${id}`);
+  }
+
   useEffect(() => {
     checkForAdmin();
     fetchTravelLogs();
@@ -60,6 +64,7 @@ const TravelLogs = () => {
           </Card.Content>
           <Card.Content extra>
             <Button basic color='red' onClick={() => deleteLog(log._id)}>Delete</Button>
+            <Button basic color='orange' onClick={() => updateLog(log._id)}>Update</Button>
           </Card.Content>
         </Card>
       ))}

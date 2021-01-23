@@ -10,7 +10,8 @@ import Profile from './pages/Profile';
 import TravelLogs from './pages/TravelLogs';
 
 import { Container } from 'semantic-ui-react'
-import CreateTravelLogs from './pages/CreateTravelLog';
+import CreateTravelLog from './pages/CreateTravelLog';
+import UpdateTravelLog from './pages/UpdateTravelLog';
 import Footer from './components/Footer';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Admin from './pages/Admin';
@@ -31,8 +32,9 @@ function App() {
           <Route path="/" component={Home} exact />
         </EmailCheker>
         <Route path="/privacy-policy" component={PrivacyPolicy} exact />
-        <PrivateRoute path="/travel-logs" component={TravelLogs} />
-        <PrivateRoute path="/create-travel-logs" component={CreateTravelLogs} />
+        <PrivateRoute path="/travellogs" component={TravelLogs} exact />
+        <PrivateRoute path="/travellogs/create" component={CreateTravelLog} exact />
+        <PrivateRoute path="/travellogs/update/:id" component={UpdateTravelLog} exact />
         <PrivateRoute path="/profile" component={Profile} />
         <PrivateRoute path="/admin" component={Admin} />
       </Container>
