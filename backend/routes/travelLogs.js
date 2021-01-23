@@ -1,7 +1,7 @@
 const checkUser = require('../middleware/checkUser');
 const jwtCheck = require('../middleware/jwtCheck');
 const TravelLog = require('../models/TravelLog');
-const isOwnerOrAdmin = require('../middleware/isOwnerOrAdmin');
+const isOwnerOrAdminOfLog = require('../middleware/isOwnerOrAdminOfLog');
 const cors = require('cors');
 const corsOptions = require('../utils/corsOptions');
 const restrictAdmin = require('../middleware/restrictAdmin');
@@ -74,7 +74,7 @@ router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck,
  * DELETE - /travelLogs
  * Delete travel log
  */
-router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOrAdmin, async (req, res) => {
+router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOrAdminOfLog, async (req, res) => {
   // Get id of travel log
   const { id: logId } = req.params;
 

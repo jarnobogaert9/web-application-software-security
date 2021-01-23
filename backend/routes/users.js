@@ -26,7 +26,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
       mutatedUsers.push({
         email,
         nickname,
-        user_id
+        sub: user_id
       })
     }
 
@@ -63,14 +63,10 @@ router.get('/:id', cors(corsOptions), async (req, res) => {
  * Update user
  */
 router.put('/:id', cors(corsOptions), jwtCheck, checkUser, contentNegotationJson, async (req, res) => {
-  const { id: nickname } = req.params;
+  const { id: sub } = req.params;
   const { newNickname } = req.body;
 
   try {
-    // Get sub based on incoming nickname
-    const users = await getAllAuth0Users();
-    const auth0User = users.find(user => user.nickname === nickname);
-    const { user_id: sub } = auth0User;
     console.log("Update data of user:", sub);
     console.log(sub, newNickname);
 
@@ -97,7 +93,8 @@ router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) =
 
     // Delete user in auth0
     // Delete user in own database
-    await User.deleteOne({ sub });
+    const d = await User.deleteOne({ sub });
+    console.log(d);
     await deleteAuth0User(sub);
 
     res.status(200).send({ msg: 'Account has been deleted.', status: 'success' });

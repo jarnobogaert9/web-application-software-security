@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import React, { useState, useEffect } from 'react'
 import { Button, Divider, Form } from 'semantic-ui-react'
 import { TRAVELR_API } from '../config/keys';
-import { deleteUserAccount, getUser, updateUserAccount } from '../services/userService';
+import { deleteUserAccount, downloadUserData, getUser, updateUserAccount } from '../services/userService';
 
 const Profile = () => {
   const { user, getAccessTokenSilently, logout } = useAuth0();
@@ -14,26 +14,22 @@ const Profile = () => {
   const getPersonalData = async () => {
     setDownloading(true);
     const token = await getAccessTokenSilently();
-
-    const response = await fetch(`${TRAVELR_API}/users/${user.nickname}`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-      }
-    });
-    console.log(response);
-    const json = await response.json();
-    console.log(json);
-
-    let fileURL = window.URL.createObjectURL(
-      new Blob([JSON.stringify(json.data)], {
-        type: "application/json",
-      })
-    );
-    let temp = document.createElement("a");
-    temp.href = fileURL;
-    temp.setAttribute("download", `${user.nickname}.json`);
-    temp.click();
+    // Get sub of the user that is authenticated
+    const { sub } = await getUser({ token });
+    const data = await downloadUserData({ token, sub })
+    if (data) {
+      let fileURL = window.URL.createObjectURL(
+        new Blob([JSON.stringify(data)], {
+          type: "application/json",
+        })
+      );
+      let temp = document.createElement("a");
+      temp.href = fileURL;
+      temp.setAttribute("download", `${user.nickname}.json`);
+      temp.click();
+    } else {
+      alert('Something went wrong, please try again later.')
+    }
     setDownloading(false);
   }
 
@@ -63,10 +59,12 @@ const Profile = () => {
     setUpdating(true);
 
     const token = await getAccessTokenSilently();
+    // Get sub of the user that is authenticated
+    const { sub } = await getUser({ token });
 
     console.log(newNickname);
 
-    const result = await updateUserAccount({ token, nickname: user.nickname, newNickname });
+    const result = await updateUserAccount({ token, sub, newNickname });
 
     if (result.updated) {
       // Update tokens in localStorage
