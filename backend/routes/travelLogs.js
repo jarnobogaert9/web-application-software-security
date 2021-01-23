@@ -24,7 +24,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
 
     const mutatedLogs = await populateMutatedLogs(logs)
 
-    res.send({ msg: 'Get all travel logs', data: mutatedLogs, status: 'success' });
+    res.status(200).send({ msg: 'Get all travel logs', data: mutatedLogs, status: 'success' });
   } catch (err) {
     res.status(500).send({ msg: 'Something went while trying to get all travel logs', status: 'failure' });
   }
@@ -40,7 +40,7 @@ router.get('/own', cors(corsOptions), jwtCheck, checkUser, restrictAdmin, async 
   const { _id } = req.loggedInUser;
   try {
     const logs = await TravelLog.find({ owner: _id });
-    res.send({ msg: 'Get all travel logs for one user', data: logs, status: 'success' });
+    res.status(200).send({ msg: 'Get all travel logs for one user', data: logs, status: 'success' });
   } catch (err) {
     res.status(500).send({ msg: 'Something went while trying to get your travel logs', status: 'failure' });
   }

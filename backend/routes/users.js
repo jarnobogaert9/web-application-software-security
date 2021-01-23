@@ -73,7 +73,7 @@ router.put('/:id', cors(corsOptions), jwtCheck, checkUser, contentNegotationJson
     // Update userdata in auth0
     await updateAuth0User(sub, newNickname);
 
-    res.status(200).send({ msg: 'Your account has been updated.', status: 'success' });
+    res.status(200).send({ msg: 'Account has been updated.', status: 'success' });
   } catch (err) {
     console.log(err);
     res.status(500).send({ msg: 'Something went wrong while trying to udpate your account. Please try again later.', status: 'failure' });
