@@ -68,10 +68,7 @@ const Profile = () => {
 
     if (result.updated) {
       // Update tokens in localStorage
-      await getAccessTokenSilently({
-        ignoreCache: false,
-      });
-      alert(result.msg);
+      window.location.reload();
     } else {
       alert(result.msg);
     }
