@@ -39,18 +39,17 @@ const Navbar = () => {
             history.push('/')
             history.replace('/');
           }}>
-            {/* <a href="/">Home</a> */}
             Home
           </Menu.Item>
           {isAuthenticated &&
-            !admin && <Menu.Item onClick={() => history.push('/travel-logs')}>
+            !admin && <Menu.Item onClick={() => history.push('/travellogs')}>
               Your Travel Logs
             </Menu.Item>
           }
 
           {isAuthenticated &&
             !admin &&
-            <Menu.Item onClick={() => history.push('/create-travel-log')}>
+            <Menu.Item onClick={() => history.push('/travellogs/create')}>
               Create Travel Log
             </Menu.Item>
           }

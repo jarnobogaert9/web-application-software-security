@@ -43,7 +43,7 @@ const TravelLogs = () => {
   }
 
   const updateLog = async (id) => {
-    history.push(`/update-travel-log/${id}`);
+    history.push(`/travellogs/update/${id}`);
   }
 
   useEffect(() => {

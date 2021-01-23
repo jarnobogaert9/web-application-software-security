@@ -32,9 +32,9 @@ function App() {
           <Route path="/" component={Home} exact />
         </EmailCheker>
         <Route path="/privacy-policy" component={PrivacyPolicy} exact />
-        <PrivateRoute path="/travel-logs" component={TravelLogs} />
-        <PrivateRoute path="/create-travel-log" component={CreateTravelLog} />
-        <PrivateRoute path="/update-travel-log/:id" component={UpdateTravelLog} />
+        <PrivateRoute path="/travellogs" component={TravelLogs} exact />
+        <PrivateRoute path="/travellogs/create" component={CreateTravelLog} exact />
+        <PrivateRoute path="/travellogs/update/:id" component={UpdateTravelLog} exact />
         <PrivateRoute path="/profile" component={Profile} />
         <PrivateRoute path="/admin" component={Admin} />
       </Container>
