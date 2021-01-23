@@ -1,5 +1,4 @@
 const TravelLog = require('../models/TravelLog');
-const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
   // Get id of travel log
@@ -9,6 +8,7 @@ module.exports = async (req, res, next) => {
 
   // Check if user is owner
   const isOwner = await TravelLog.findOne({ _id: logId, owner: userId });
+  console.log(isOwner);
   if (isOwner) {
     next();
   } else {

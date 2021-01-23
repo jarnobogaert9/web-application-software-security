@@ -82,7 +82,7 @@ const CreateTravelLogs = () => {
           <input value={place} onChange={(e) => setPlace(e.target.value)} placeholder='Enter place ex. Dubai' />
         </Form.Field>
         <Form.TextArea value={description} onChange={(e) => setDescription(e.target.value)} label='Description' placeholder='Tell us more about your travel trip' />
-        <Button type='submit' onClick={() => update()}>Update Log</Button>
+        <Button color="yellow" type='submit' onClick={() => update()}>Update Log</Button>
       </Form>
     </div>
   )

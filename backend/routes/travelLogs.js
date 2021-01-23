@@ -94,11 +94,13 @@ router.put('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOfLog, content
   // Get id of travel log
   const { id: logId } = req.params;
   const { title, place, description } = req.body;
-  console.log(logId);
-  console.log(req.body);
 
   try {
-    await TravelLog.findOneAndUpdate({ _id: logId }, { title, place, description });
+    const l = await TravelLog.findOne({ _id: logId });
+    l.title = title;
+    l.place = place;
+    l.description = description;
+    await l.save();
     res.status(200).send({ msg: 'Travel log updated', status: 'success' });
   } catch (error) {
     res.status(500).send({ msg: 'Something went wrong while trying to update a travel log', status: 'failure' });
