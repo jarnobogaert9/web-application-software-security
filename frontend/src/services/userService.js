@@ -31,9 +31,9 @@ const deleteUserAccount = async ({ token, sub }) => {
   }
 }
 
-const updateUserAccount = async ({ token, nickname, newNickname }) => {
+const updateUserAccount = async ({ token, sub, newNickname }) => {
   try {
-    const response = await fetch(`${TRAVELR_API}/users/${nickname}`, {
+    const response = await fetch(`${TRAVELR_API}/users/${sub}`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,

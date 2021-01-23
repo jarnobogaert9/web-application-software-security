@@ -59,10 +59,12 @@ const Profile = () => {
     setUpdating(true);
 
     const token = await getAccessTokenSilently();
+    // Get sub of the user that is authenticated
+    const { sub } = await getUser({ token });
 
     console.log(newNickname);
 
-    const result = await updateUserAccount({ token, nickname: user.nickname, newNickname });
+    const result = await updateUserAccount({ token, sub, newNickname });
 
     if (result.updated) {
       // Update tokens in localStorage

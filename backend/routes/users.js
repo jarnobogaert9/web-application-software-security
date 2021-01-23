@@ -63,14 +63,10 @@ router.get('/:id', cors(corsOptions), async (req, res) => {
  * Update user
  */
 router.put('/:id', cors(corsOptions), jwtCheck, checkUser, contentNegotationJson, async (req, res) => {
-  const { id: nickname } = req.params;
+  const { id: sub } = req.params;
   const { newNickname } = req.body;
 
   try {
-    // Get sub based on incoming nickname
-    const users = await getAllAuth0Users();
-    const auth0User = users.find(user => user.nickname === nickname);
-    const { user_id: sub } = auth0User;
     console.log("Update data of user:", sub);
     console.log(sub, newNickname);
 
