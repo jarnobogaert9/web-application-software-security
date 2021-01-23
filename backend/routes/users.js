@@ -26,7 +26,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
       mutatedUsers.push({
         email,
         nickname,
-        user_id
+        sub: user_id
       })
     }
 
@@ -97,7 +97,8 @@ router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) =
 
     // Delete user in auth0
     // Delete user in own database
-    await User.deleteOne({ sub });
+    const d = await User.deleteOne({ sub });
+    console.log(d);
     await deleteAuth0User(sub);
 
     res.status(200).send({ msg: 'Account has been deleted.', status: 'success' });

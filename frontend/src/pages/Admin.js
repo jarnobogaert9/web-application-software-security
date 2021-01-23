@@ -89,16 +89,16 @@ const Admin = () => {
                 <h3>All users</h3>
 
                 {users.map(user => (
-                  <Card fluid key={user.user_id}>
+                  <Card fluid key={user.sub}>
                     <Card.Content>
                       <Card.Header>{user.nickname}</Card.Header>
-                      <Card.Meta>sub: {user.user_id}</Card.Meta>
+                      <Card.Meta>sub: {user.sub}</Card.Meta>
                       <Card.Description>
                         {user.email}
                       </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
-                      <Button basic color='red' onClick={() => deleteUser(user.user_id)}>Delete</Button>
+                      <Button basic color='red' onClick={() => deleteUser(user.sub)}>Delete</Button>
                     </Card.Content>
                   </Card>
                 ))}
