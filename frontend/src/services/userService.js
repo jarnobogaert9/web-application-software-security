@@ -107,9 +107,31 @@ const getUser = async ({ token }) => {
   }
 }
 
+const downloadUserData = async ({ token, sub }) => {
+  try {
+    const response = await fetch(`${TRAVELR_API}/users/${sub}`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log(response);
+    const json = await response.json();
+    console.log(json);
+    if (response.status === 200) {
+      return json.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return false;
+  }
+}
+
 export {
   deleteUserAccount,
   updateUserAccount,
   getAllUserAccounts,
-  getUser
+  getUser,
+  downloadUserData
 }
