@@ -22,6 +22,6 @@ module.exports = async (req, res, next) => {
   if (isOwner) {
     next();
   } else {
-    return res.status(401).send({ status: 'Failure', msg: 'You are not authorized to request this resource.' })
+    return res.status(403).send({ status: 'Failure', msg: 'You are not authorized to request this resource.' })
   }
 }
