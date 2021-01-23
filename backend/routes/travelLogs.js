@@ -10,16 +10,14 @@ const populateMutatedLogs = require('../utils/populateMutatedLogs');
 
 const router = require('express').Router();
 
+router.options('/', cors({ ...corsOptions, methods: "GET, POST, OPTIONS" }));
+router.options('/own', cors({ ...corsOptions, methods: "GET, OPTIONS" }));
+router.options('/:id', cors({ ...corsOptions, methods: "DELETE, OPTIONS" }));
 
 /**
  * GET - /travelLogs
  * return all travel logs
  */
-
-router.options('/', cors({ ...corsOptions, methods: "GET, POST, OPTIONS" }));
-router.options('/own', cors({ ...corsOptions, methods: "GET, OPTIONS" }));
-router.options('/:id', cors({ ...corsOptions, methods: "DELETE, OPTIONS" }));
-
 router.get('/', cors(corsOptions), async (req, res) => {
   try {
     const logs = await TravelLog.find().populate('owner');
@@ -71,7 +69,7 @@ router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck,
 });
 
 /**
- * DELETE - /travelLogs
+ * DELETE - /travelLogs/:id
  * Delete travel log
  */
 router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOrAdminOfLog, async (req, res) => {

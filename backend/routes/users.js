@@ -8,7 +8,7 @@ const contentNegotationJson = require('../middleware/contentNegotationJson');
 
 const router = require('express').Router();
 
-
+router.options('/', cors({ ...corsOptions, methods: "GET OPTIONS" }));
 router.options('/:id', cors({ ...corsOptions, methods: "GET, PUT, DELETE, OPTIONS" }))
 
 /**
