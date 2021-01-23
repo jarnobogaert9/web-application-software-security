@@ -1,7 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import React, { useState, useEffect } from 'react'
 import { Button, Divider, Form } from 'semantic-ui-react'
-import { TRAVELR_API } from '../config/keys';
 import { deleteUserAccount, downloadUserData, getUser, updateUserAccount } from '../services/userService';
 
 const Profile = () => {

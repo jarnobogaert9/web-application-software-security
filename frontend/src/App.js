@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 
 import { Route } from 'react-router-dom'
@@ -15,6 +14,7 @@ import CreateTravelLogs from './pages/CreateTravelLog';
 import Footer from './components/Footer';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Admin from './pages/Admin';
+import EmailCheker from './auth/EmailCheker';
 
 function App() {
   const { isLoading } = useAuth0();
@@ -27,7 +27,9 @@ function App() {
     <>
       <Navbar />
       <Container className="addSpacer">
-        <Route path="/" component={Home} exact />
+        <EmailCheker>
+          <Route path="/" component={Home} exact />
+        </EmailCheker>
         <Route path="/privacy-policy" component={PrivacyPolicy} exact />
         <PrivateRoute path="/travel-logs" component={TravelLogs} />
         <PrivateRoute path="/create-travel-logs" component={CreateTravelLogs} />

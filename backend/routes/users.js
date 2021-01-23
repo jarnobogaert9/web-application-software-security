@@ -22,11 +22,11 @@ router.get('/', cors(corsOptions), async (req, res) => {
     const mutatedUsers = [];
 
     for (let user of users) {
-      const { email, nickname, user_id } = user;
+      const { email, nickname, user_id, email_verified } = user;
       mutatedUsers.push({
         email,
         nickname,
-        sub: user_id
+        sub: user_id,
       })
     }
 
