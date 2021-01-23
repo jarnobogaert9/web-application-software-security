@@ -10,7 +10,7 @@ De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
 
 [Verwerkingsregister](#Verwerkingsregister)
 
-[REST API's](#REST-API's)
+[REST API's](#rest-api's)
 
 [Toegangscontrole policy](#Toegangscontrole-policy)
 
