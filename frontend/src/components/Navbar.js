@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom';
-import { Button, Container, Menu } from 'semantic-ui-react';
+import { useHistory } from 'react-router-dom';
+import { Container, Menu } from 'semantic-ui-react';
 import isAdmin from '../auth/isAdmin';
 import { getUser } from '../services/userService';
 import LoginButton from './LoginButton';
@@ -14,7 +14,7 @@ const AuthNav = () => {
 
 const Navbar = () => {
   const history = useHistory();
-  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [admin, setAdmin] = useState(true);
 
   const checkIfAdmin = async () => {
@@ -35,7 +35,11 @@ const Navbar = () => {
     <div>
       <Container>
         <Menu>
-          <Menu.Item onClick={() => history.push('/')}>
+          <Menu.Item onClick={() => {
+            history.push('/')
+            history.replace('/');
+          }}>
+            {/* <a href="/">Home</a> */}
             Home
           </Menu.Item>
           {isAuthenticated &&

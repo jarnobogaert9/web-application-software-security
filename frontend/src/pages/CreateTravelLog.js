@@ -1,6 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import React, { useEffect, useState } from 'react'
-import { TRAVELR_API } from '../config/keys';
 
 import { Button, Form } from 'semantic-ui-react'
 import isAdmin from '../auth/isAdmin';
@@ -9,13 +8,12 @@ import { createTraveLog } from '../services/travelLogService';
 import { getUser } from '../services/userService';
 
 const CreateTravelLogs = () => {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const history = useHistory();
 
   const [title, setTitle] = useState('');
   const [place, setPlace] = useState('');
   const [description, setDescription] = useState('');
-  const [logs, setLogs] = useState([]);
 
 
   const checkForAdmin = async () => {

@@ -10,7 +10,7 @@ const isAdmin = async (token, sub) => {
     }
   });
   const json = await response.json();
-  return json.data.role == 'admin' ? true : false;
+  return json.data.role === 'admin' ? true : false;
 }
 
 export default isAdmin

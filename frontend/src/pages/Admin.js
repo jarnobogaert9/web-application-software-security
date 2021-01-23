@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import isAdmin from '../auth/isAdmin';
 
-import { Button, Card, Form, Grid, Loader } from 'semantic-ui-react'
+import { ToastContainer } from 'react-toastify';
+import { Button, Card, Grid, Loader } from 'semantic-ui-react'
 import { deleteTravelLog, getAllTravelLogs } from '../services/travelLogService';
 import { deleteUserAccount, getAllUserAccounts, getUser } from '../services/userService';
 
 const Admin = () => {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const history = useHistory();
   const [logs, setLogs] = useState([]);
   const [users, setUsers] = useState([]);
@@ -59,6 +60,7 @@ const Admin = () => {
 
   return (
     <>
+      <ToastContainer />
       <h1>Admin page</h1>
       <Grid columns={2} divided>
         {
