@@ -7,12 +7,13 @@ const corsOptions = require('../utils/corsOptions');
 const restrictAdmin = require('../middleware/restrictAdmin');
 const contentNegotationJson = require('../middleware/contentNegotationJson');
 const populateMutatedLogs = require('../utils/populateMutatedLogs');
+const isOwnerOfLog = require('../middleware/isOwnerOfLog');
 
 const router = require('express').Router();
 
 router.options('/', cors({ ...corsOptions, methods: "GET, POST, OPTIONS" }));
 router.options('/own', cors({ ...corsOptions, methods: "GET, OPTIONS" }));
-router.options('/:id', cors({ ...corsOptions, methods: "DELETE, OPTIONS" }));
+router.options('/:id', cors({ ...corsOptions, methods: "GET, PUT, DELETE, OPTIONS" }));
 
 /**
  * GET - /travelLogs
@@ -67,6 +68,43 @@ router.post('/', cors({ ...corsOptions, exposedHeaders: "Location" }), jwtCheck,
   await log.save();
   res.status(201).json({ msg: 'Travel log created.' });
 });
+
+/**
+ * GET - /travelLogs/:id
+ * Get travel log
+ */
+router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
+  // Get id of travel log
+  const { id: logId } = req.params;
+
+  try {
+    const log = await TravelLog.findOne({ _id: logId });
+    res.status(200).send({ data: log, status: 'success' });
+  } catch (error) {
+    res.status(500).send({ msg: 'Something went wrong while trying to update a travel log', status: 'failure' });
+  }
+});
+
+
+/**
+ * PUT - /travelLogs/:id
+ * Update travel log
+ */
+router.put('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOfLog, contentNegotationJson, async (req, res) => {
+  // Get id of travel log
+  const { id: logId } = req.params;
+  const { title, place, description } = req.body;
+  console.log(logId);
+  console.log(req.body);
+
+  try {
+    await TravelLog.findOneAndUpdate({ _id: logId }, { title, place, description });
+    res.status(200).send({ msg: 'Travel log updated', status: 'success' });
+  } catch (error) {
+    res.status(500).send({ msg: 'Something went wrong while trying to update a travel log', status: 'failure' });
+  }
+});
+
 
 /**
  * DELETE - /travelLogs/:id

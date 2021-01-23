@@ -50,7 +50,7 @@ const Navbar = () => {
 
           {isAuthenticated &&
             !admin &&
-            <Menu.Item onClick={() => history.push('/create-travel-logs')}>
+            <Menu.Item onClick={() => history.push('/create-travel-log')}>
               Create Travel Log
             </Menu.Item>
           }

@@ -41,7 +41,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
  * GET - /users/:id
  * Return user info
  */
-router.get('/:id', cors(corsOptions), async (req, res) => {
+router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
   const { id: sub } = req.params;
 
   try {
