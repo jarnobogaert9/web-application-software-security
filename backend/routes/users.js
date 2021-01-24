@@ -99,15 +99,15 @@ router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) =
 
     const u = await User.findOne({ sub });
 
+    // Delete travel logs of user
     await TravelLog.deleteMany({ owner: u });
 
-    // Delete user in auth0
     // Delete user in own database
-    // const d = await User.deleteOne({ sub });
+    // Delete user in auth0
     await u.delete();
-    // console.log(d);
-    console.log(u);
     await deleteAuth0User(sub);
+    // console.log(d);
+    // console.log(u);
 
     res.status(200).send({ msg: 'Account has been deleted.', status: 'success' });
   } catch (err) {
