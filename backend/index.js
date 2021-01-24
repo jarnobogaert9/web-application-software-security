@@ -10,6 +10,7 @@ const travelLogs = require('./routes/travelLogs');
 const users = require('./routes/users');
 const user = require('./routes/user');
 const Role = require('./models/Role');
+const corsOptions = require('./utils/corsOptions');
 
 
 const PORT = process.env.PORT || 4000;
