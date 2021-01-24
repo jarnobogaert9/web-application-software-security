@@ -6,6 +6,7 @@ const cors = require('cors');
 const User = require('../models/User');
 const contentNegotationJson = require('../middleware/contentNegotationJson');
 const isOwnerOfUser = require('../middleware/isOwnerOfUser');
+const TravelLog = require('../models/TravelLog');
 
 const router = require('express').Router();
 
@@ -71,6 +72,10 @@ router.put('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOfUser, conten
     console.log("Update data of user:", sub);
     console.log(sub, newNickname);
 
+    if (sub.includes('google-oauth2')) {
+      return res.status(202).send({ msg: 'A nickname of a google account can not be changed through Travelr. You need to change this in your google account itself.', status: 'success' });
+    }
+
     // Update userdata in auth0
     await updateAuth0User(sub, newNickname);
 
@@ -92,10 +97,16 @@ router.delete('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) =
   try {
     console.log("Delete data of user:", sub);
 
+    const u = await User.findOne({ sub });
+
+    await TravelLog.deleteMany({ owner: u });
+
     // Delete user in auth0
     // Delete user in own database
-    const d = await User.deleteOne({ sub });
-    console.log(d);
+    // const d = await User.deleteOne({ sub });
+    await u.delete();
+    // console.log(d);
+    console.log(u);
     await deleteAuth0User(sub);
 
     res.status(200).send({ msg: 'Account has been deleted.', status: 'success' });
