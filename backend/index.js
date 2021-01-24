@@ -33,7 +33,7 @@ mongoose.connect(`mongodb+srv://admin123:${process.env.MONGODB_PWD}@cluster0.ooe
   console.log(err);
 });
 
-// TODO vermijdt MIME sniffin: x-content-type-options: nosniff wordt door cloudflare gedaan
+// MIME sniffin: x-content-type-options: nosniff wordt door cloudflare gedaan
 
 
 app.use(express.json());
@@ -43,6 +43,7 @@ app.use('/travelLogs', travelLogs);
 app.use('/users', users);
 app.use('/user', user);
 
+app.options('/', cors({ ...corsOptions, methods: "GET OPTIONS" }));
 
 app.get('/', (req, res) => {
   res.json({
@@ -50,55 +51,6 @@ app.get('/', (req, res) => {
   })
 });
 
-
-// app.get('/authorized', jwtCheck, async function (req, res) {
-//   const token = req.header('Authorization');
-//   console.log(req.user);
-
-//   // TODO get user role
-//   const userinfoUrl = 'https://dev-dnjlv1qu.eu.auth0.com/userinfo'
-//   const url = 'https://dev-dnjlv1qu.eu.auth0.com/api/v2/users'
-
-//   axios.get(`${userinfoUrl}`, {
-//     headers: {
-//       'Authorization': `${token}`
-//     }
-//   }).then(resp => {
-//     console.log(resp.data);
-//   }).catch(err => {
-//     console.log(err);
-//   })
-
-//   // var options = {
-//   //   method: 'GET',
-//   //   url: 'https://dev-dnjlv1qu.eu.auth0.com/api/v2/users',
-//   //   headers: { authorization: `${token}` }
-//   // };
-
-//   // axios.default.request(options).then(function (response) {
-//   //   console.log(response.data);
-//   // }).catch(function (error) {
-//   //   console.error(error);
-//   // });
-
-
-//   // console.log(token);
-//   // console.log(id);
-//   // console.log(req.user);
-//   // const url = `${process.env.AUTH0_ISSUER}api/v2/users/${id}`
-//   // console.log(url);
-//   // const options = {
-//   //   method: 'GET',
-//   //   url: url,
-//   //   headers: { authorization: `${token}` }
-//   // };
-
-//   // const response = await axios.get();
-//   // console.log(response);
-//   res.json({
-//     msg: 'Secured Resource'
-//   });
-// });
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
