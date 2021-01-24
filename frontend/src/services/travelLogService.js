@@ -82,7 +82,6 @@ const deleteTravelLog = async ({ token, id }) => {
 }
 
 const updateTravelLog = async ({ token, id, data }) => {
-  console.log(data);
   try {
     const response = await fetch(`${TRAVELR_API}/travelLogs/${id}`, {
       method: 'PUT',

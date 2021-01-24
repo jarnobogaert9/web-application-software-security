@@ -39,7 +39,13 @@ const CreateTravelLogs = () => {
       description
     }
 
-    await updateTravelLog({ token, data, id: logId });
+    const updated = await updateTravelLog({ token, data, id: logId });
+
+    if (updated) {
+      alert('Travel log udpated.');
+    } else {
+      alert('Something went wrong while trying to update travel log, please try again later.');
+    }
 
     return;
   }
