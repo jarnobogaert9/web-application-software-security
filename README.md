@@ -134,7 +134,7 @@ Voor sommige operaties is er authenticatie nodig.
 - DELETE
 - OPTIONS
 
-> GET, PUT & DELETE: authenticatie vereist
+> GET, PUT, DELETE: authenticatie vereist
 
 > PUT: Wanneer een gebruiker, die gebruik maakt van "Sign up with Google", zijn nickname wenst te wijzgen, stuurt de API een 202 status code terug.
 
