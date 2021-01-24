@@ -21,7 +21,6 @@ const Admin = () => {
     const token = await getAccessTokenSilently();
     const { sub } = await getUser({ token });
     const admin = await isAdmin(token, sub);
-    console.log(admin);
     if (!admin) {
       history.push('/')
     }
@@ -46,7 +45,6 @@ const Admin = () => {
   }
 
   const deleteUser = async (sub) => {
-    console.log('delete:', sub);
     const token = await getAccessTokenSilently();
     await deleteUserAccount({ token, sub });
     fetchUsers();

@@ -10,9 +10,7 @@ const deleteUserAccount = async ({ token, sub }) => {
         Accept: 'application/json'
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return {
         ...json,
@@ -42,9 +40,7 @@ const updateUserAccount = async ({ token, sub, newNickname }) => {
       },
       body: JSON.stringify({ newNickname })
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return {
         ...json,
@@ -72,9 +68,7 @@ const getAllUserAccounts = async () => {
         Accept: 'application/json'
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return json.data;
     } else {
@@ -94,9 +88,7 @@ const getUser = async ({ token }) => {
         Accept: 'application/json',
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return json.data;
     } else {
@@ -115,9 +107,7 @@ const downloadUserData = async ({ token, sub }) => {
         Authorization: `Bearer ${token}`
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return json.data;
     } else {

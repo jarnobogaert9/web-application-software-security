@@ -38,7 +38,6 @@ const Profile = () => {
     const token = await getAccessTokenSilently();
 
     if (window.confirm('Are you sure you want to delete your account?')) {
-      console.log('Delete it');
       // Get sub of the user that is authenticated
       const { sub } = await getUser({ token });
       // Delete user account based on token (wich is of the logged in user in this case)
@@ -49,7 +48,7 @@ const Profile = () => {
         alert(result.msg);
       }
     } else {
-      console.log('Don\'t delete');
+      // console.log('Don\'t delete');
     }
     setDeleting(false);
   }
@@ -60,8 +59,6 @@ const Profile = () => {
     const token = await getAccessTokenSilently();
     // Get sub of the user that is authenticated
     const { sub } = await getUser({ token });
-
-    console.log(newNickname);
 
     const result = await updateUserAccount({ token, sub, newNickname });
 
