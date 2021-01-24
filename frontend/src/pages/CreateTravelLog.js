@@ -20,7 +20,6 @@ const CreateTravelLogs = () => {
     const token = await getAccessTokenSilently();
     const { sub } = await getUser({ token });
     const admin = await isAdmin(token, sub);
-    console.log(admin);
     // If you are admin you can not create a travel log so we redirect
     if (admin) {
       history.push('/')
@@ -28,8 +27,6 @@ const CreateTravelLogs = () => {
   }
 
   const create = async () => {
-    console.log('Create log');
-    console.log(title, place, description);
     // Make request to api to create a travel log
     const token = await getAccessTokenSilently();
 
@@ -39,7 +36,11 @@ const CreateTravelLogs = () => {
       description
     }
 
-    await createTraveLog({ token, data });
+    const [created, json] = await createTraveLog({ token, data });
+
+    if (!created) {
+      return alert(json.msg);
+    }
 
     clearForm();
     return;

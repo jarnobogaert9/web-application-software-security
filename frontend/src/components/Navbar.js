@@ -21,7 +21,6 @@ const Navbar = () => {
     const token = await getAccessTokenSilently();
     const { sub } = await getUser({ token });
     const admin = await isAdmin(token, sub);
-    console.log(admin);
     setAdmin(admin)
   }
 

@@ -6,7 +6,6 @@ const EmailCheker = ({ children }) => {
   const history = useHistory();
   useEffect(() => {
     const parsed = queryString.parse(window.location.search);
-    console.log(parsed);
     if (parsed.error === 'unauthorized') {
       history.push(`/?error_description=${parsed.error_description}`);
     }

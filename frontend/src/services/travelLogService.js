@@ -8,9 +8,7 @@ const getAllTravelLogs = async () => {
         Accept: 'application/json'
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return json.data;
     } else {
@@ -30,9 +28,7 @@ const getOwnTravelLogs = async ({ token }) => {
         Accept: 'application/json'
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return json.data;
     } else {
@@ -54,16 +50,14 @@ const createTraveLog = async ({ token, data }) => {
       },
       body: JSON.stringify(data)
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
-    if (response === 201) {
-      return true;
+    if (response.status === 201) {
+      return [true, json];
     } else {
-      return false;
+      return [false, json];
     }
   } catch (err) {
-    return false;
+    return [false, err];
   }
 }
 
@@ -76,9 +70,7 @@ const deleteTravelLog = async ({ token, id }) => {
         Accept: 'application/json'
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return true;
     } else {
@@ -90,7 +82,6 @@ const deleteTravelLog = async ({ token, id }) => {
 }
 
 const updateTravelLog = async ({ token, id, data }) => {
-  console.log(data);
   try {
     const response = await fetch(`${TRAVELR_API}/travelLogs/${id}`, {
       method: 'PUT',
@@ -101,9 +92,7 @@ const updateTravelLog = async ({ token, id, data }) => {
       },
       body: JSON.stringify(data)
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return true;
     } else {
@@ -123,9 +112,7 @@ const getOneTravelLog = async ({ token, id }) => {
         Accept: 'application/json',
       }
     });
-    console.log(response);
     const json = await response.json();
-    console.log(json);
     if (response.status === 200) {
       return json.data;
     } else {

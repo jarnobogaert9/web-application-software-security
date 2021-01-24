@@ -17,7 +17,6 @@ const TravelLogs = () => {
     const token = await getAccessTokenSilently();
     const { sub } = await getUser({ token });
     const admin = await isAdmin(token, sub);
-    console.log(admin);
     // If you are admin you can not create a travel log so you can not see your own travel logs as a result we redirect
     if (admin) {
       history.push('/')
@@ -36,7 +35,6 @@ const TravelLogs = () => {
   }
 
   const deleteLog = async (id) => {
-    console.log(id);
     const token = await getAccessTokenSilently();
     await deleteTravelLog({ token, id });
     fetchTravelLogs();

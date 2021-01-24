@@ -20,7 +20,6 @@ const Home = () => {
 
 
   useEffect(() => {
-    console.log('path:', window.location.pathname);
     const { error_description } = queryString.parse(window.location.search);
     if (error_description) {
       setErrorMsg(error_description);
