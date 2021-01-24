@@ -8,11 +8,25 @@ De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
 
 ## Inhoudstafel
 
+[Registratie & aanmelden](#registratie-&-aanmelden)
+
+[Privacyverklaring](#Privacyverklaring)
+
 [Verwerkingsregister](#Verwerkingsregister)
+
+[Maatregelen tegen courante aanvallen](#maatregelen-tegen-courante-aanvallen)
 
 [REST API's](#rest-api's)
 
 [Toegangscontrole policy](#Toegangscontrole-policy)
+
+## Registratie & aanmelden
+
+Voor het registreren en aanmelden wordt Auth0 gebruikt. Als alternatief van de HIBP API wordt er een woordenboek (dictionary) gebruikt die 10.000 wachtwoorden bevat die frequent voorkomen.
+
+## Privacyverklaring
+
+De privacyverklaring kan men [hier](https://www.jarnob.xyz/privacy-policy) terugvinden.
 
 ## Verwerkingsregister
 
@@ -44,15 +58,32 @@ De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
 
 12. Met welke partijen worden de personengegevens gedeeld: niet van toepassing
 
+## Maatregelen tegen courante aanvallen
+
+### Componenten met beveiligingsproblemen
+
+Om mogelijke kwetsbaarheden zo snel mogelijk op te sporen en te identificeren wordt Dependabot gebruikt. Dependabot stuurt automatisch emails wanneer er kwetsbaarheden worden gedetecteerd.
+
+### Maatregelen tegen typische web vulnerabilities
+
+MIME sniffing wordt tegengegaan door de header:
+
+`x-content-type-options: nosniff`
+
 ## REST API's
 
 Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
+
+Alle operaties zijn toegelaten vanuit elke Origin.
+
+Voor sommige operaties is er authenticatie nodig.
 
 **Resources**
 
 ### (root)
 
 - GET
+- OPTIONS
 
 > Dit is een route om te controlere of de API nog online staat, GET: geen authenticatie vereist
 
@@ -66,10 +97,12 @@ Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 
 ### /travelLogs/:id
 
+- GET
+- PUT
 - DELETE
 - OPTIONS
 
-> DELETE: authenticatie vereist
+> GET, PUT, DELETE: authenticatie vereist
 
 ### /travelLogs/own
 
@@ -100,8 +133,6 @@ Dit is de url naar de REST API: https://api-travelr.jarnobogaert.xyz/
 - OPTIONS
 
 > GET, PUT & DELETE: authenticatie vereist
-
-Alle operaties zijn alleen toegelaten vanuit deze origin: https://www.jarnob.xyz
 
 ## Toegangscontrole policy
 
