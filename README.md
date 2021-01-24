@@ -10,7 +10,7 @@ De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
 
 ## Inhoudstafel
 
-[Registratie & aanmelden](#registratie-&-aanmelden)
+[Registratie & aanmelden](#registratie--aanmelden)
 
 [Privacyverklaring](#Privacyverklaring)
 
@@ -18,7 +18,7 @@ De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
 
 [Maatregelen tegen courante aanvallen](#maatregelen-tegen-courante-aanvallen)
 
-[REST API's](#rest-api's)
+[REST API's](#rest-apis)
 
 [Toegangscontrole policy](#Toegangscontrole-policy)
 
@@ -134,7 +134,7 @@ Voor sommige operaties is er authenticatie nodig.
 - DELETE
 - OPTIONS
 
-> GET, PUT & DELETE: authenticatie vereist
+> GET, PUT, DELETE: authenticatie vereist
 
 > PUT: Wanneer een gebruiker, die gebruik maakt van "Sign up with Google", zijn nickname wenst te wijzgen, stuurt de API een 202 status code terug.
 
