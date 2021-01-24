@@ -2,6 +2,8 @@
 
 ## Inleiding
 
+Deze SPA is een platform waarop gebruikers hun reiservaringen kunnen delen. Deze reiservaringen worden verder "Travel Logs" genoemd.
+
 De SPA kan je terugvinden op: https://www.jarnob.xyz
 
 De REST API kan je terugvinden op: https://api-travelr.jarnobogaert.xyz/
