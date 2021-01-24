@@ -81,7 +81,7 @@ router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
     const log = await TravelLog.findOne({ _id: logId });
     res.status(200).send({ data: log, status: 'success' });
   } catch (error) {
-    res.status(500).send({ msg: 'Something went wrong while trying to update a travel log', status: 'failure' });
+    res.status(500).send({ msg: 'Something went wrong while trying to get a travel log', status: 'failure' });
   }
 });
 

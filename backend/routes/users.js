@@ -5,6 +5,7 @@ const corsOptions = require('../utils/corsOptions');
 const cors = require('cors');
 const User = require('../models/User');
 const contentNegotationJson = require('../middleware/contentNegotationJson');
+const isOwnerOfUser = require('../middleware/isOwnerOfUser');
 
 const router = require('express').Router();
 
@@ -62,7 +63,7 @@ router.get('/:id', cors(corsOptions), jwtCheck, checkUser, async (req, res) => {
  * PUT - /users/:id
  * Update user
  */
-router.put('/:id', cors(corsOptions), jwtCheck, checkUser, contentNegotationJson, async (req, res) => {
+router.put('/:id', cors(corsOptions), jwtCheck, checkUser, isOwnerOfUser, contentNegotationJson, async (req, res) => {
   const { id: sub } = req.params;
   const { newNickname } = req.body;
 
